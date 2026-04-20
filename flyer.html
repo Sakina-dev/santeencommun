@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guide Bénévoles - Santé en Commun</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&family=Nunito:ital,wght@0,400;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Nunito', 'sans-serif'], handwriting: ['Caveat', 'cursive'] },
+                    colors: { brand: { rose: '#E29587', green: '#A7C4B5', dark: '#2D3748', light: '#F7FAFC' } }
+                }
+            }
+        }
+    </script>
+    <style>
+        .target-card { transition: all 0.3s ease; }
+        .target-card:hover { transform: translateY(-5px); }
+        .target-card.active { border-width: 4px; border-color: currentColor; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1); }
+        .message-box {
+            background: #f8fafc;
+            border-left: 4px solid #cbd5e1;
+            padding: 1.25rem;
+            margin-bottom: 1rem;
+            border-radius: 0 0.5rem 0.5rem 0;
+            color: #334155;
+        }
+        .pitch-bubble {
+            background: #f1f5f9;
+            border-radius: 1rem;
+            padding: 1rem;
+            border: 1px dashed #cbd5e1;
+            position: relative;
+        }
+    </style>
+</head>
+<body class="bg-brand-light text-brand-dark min-h-screen pb-12">
+
+    <header class="bg-white shadow-sm border-b border-gray-200 py-8 px-4 text-center relative overflow-hidden">
+        <div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-brand-rose via-brand-green to-teal-500"></div>
+        <h1 class="text-3xl md:text-5xl font-extrabold mb-3">
+            <i class="fa-solid fa-bullseye text-brand-rose mr-2"></i>Guide Stratégique : <span class="text-brand-green">Recrutement</span>
+        </h1>
+        <p class="text-lg text-gray-600 max-w-2xl mx-auto font-bold">
+            Propositions d'actions de terrain (Par votre stagiaire)
+        </p>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-4 py-8">
+        
+        <div class="bg-white border border-gray-200 shadow-sm p-6 rounded-2xl mb-8">
+            <h2 class="text-xl font-bold text-gray-800 mb-3 flex items-center gap-2">
+                <i class="fa-solid fa-lightbulb text-yellow-500"></i> Une idée d'objectif commun
+            </h2>
+            <p class="text-gray-700 mb-4">
+                Pour dynamiser notre recrutement, je vous propose une approche ciblée. **Je me propose d'ailleurs de me déplacer personnellement dans ces structures** pour présenter notre association et distribuer nos flyers.
+            </p>
+            <div class="bg-indigo-50 border-l-4 border-indigo-500 p-4 rounded-r-lg">
+                <p class="text-indigo-900 font-bold italic">
+                    "L'idée est de créer un contact direct pour encourager les gens à scanner notre QR code."
+                </p>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div onclick="selectTarget('soignants')" id="card-soignants" class="target-card bg-white p-6 rounded-2xl shadow-md cursor-pointer text-rose-600 border border-gray-100 relative overflow-hidden group">
+                <div class="w-14 h-14 bg-rose-100 rounded-full flex items-center justify-center mb-4">
+                    <i class="fa-solid fa-stethoscope text-2xl text-rose-600"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-800">CIBLE 1 : Soignants</h3>
+                <p class="text-sm text-gray-500 font-semibold mb-2">Médecins, IDE, Sages-femmes</p>
+            </div>
+
+            <div onclick="selectTarget('sociaux')" id="card-sociaux" class="target-card bg-white p-6 rounded-2xl shadow-md cursor-pointer text-orange-600 border border-gray-100 relative overflow-hidden group">
+                <div class="w-14 h-14 bg-orange-100 rounded-full flex items-center justify-center mb-4">
+                    <i class="fa-solid fa-hands-holding-circle text-2xl text-orange-600"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-800">CIBLE 2 : Sociaux</h3>
+                <p class="text-sm text-gray-500 font-semibold mb-2">Éducateurs, AS, CCAS</p>
+            </div>
+
+            <div onclick="selectTarget('habitants')" id="card-habitants" class="target-card bg-white p-6 rounded-2xl shadow-md cursor-pointer text-teal-600 border border-gray-100 relative overflow-hidden group">
+                <div class="w-14 h-14 bg-teal-100 rounded-full flex items-center justify-center mb-4">
+                    <i class="fa-solid fa-house-chimney-user text-2xl text-teal-600"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-800">CIBLE 3 : Habitants</h3>
+                <p class="text-sm text-gray-500 font-semibold mb-2">Actifs, retraités, étudiants</p>
+            </div>
+        </div>
+
+        <div id="details-section" class="hidden opacity-0 transition-opacity duration-500">
+            <div class="max-w-4xl mx-auto space-y-6">
+                <div class="bg-white rounded-2xl shadow-md border-t-4 p-0 overflow-hidden" id="info-border">
+                        
+                        <!-- CONTENU CIBLE 1 : SOIGNANTS -->
+                        <div id="content-soignants" class="hidden target-content p-6">
+                            <h2 class="text-2xl font-bold text-rose-600 mb-6 border-b pb-2"><i class="fa-solid fa-stethoscope mr-2"></i> Les Professionnels de Santé</h2>
+                            
+                            <!-- Analyse Cible -->
+                            <div class="grid grid-cols-2 gap-4 mb-6 bg-slate-50 p-4 rounded-lg">
+                                <div>
+                                    <h4 class="font-bold text-slate-800 text-sm uppercase"><i class="fa-solid fa-clock text-rose-500"></i> Leur réalité</h4>
+                                    <p class="text-slate-600 text-sm mt-1">Ils sont surchargés et ont peu de temps.</p>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-slate-800 text-sm uppercase"><i class="fa-solid fa-heart text-rose-500"></i> Leur motivation</h4>
+                                    <p class="text-slate-600 text-sm mt-1">Retrouver un contact humain avec les patients, hors de la pression du cabinet.</p>
+                                </div>
+                            </div>
+
+                            <!-- Action Terrain -->
+                            <div class="mb-6">
+                                <h3 class="text-lg font-bold text-slate-800 mb-3"><i class="fa-solid fa-person-walking text-rose-500 mr-2"></i> Mon action terrain</h3>
+                                <p class="text-slate-700 bg-rose-50 p-4 rounded-xl border border-rose-100">
+                                    Je suggère de me déplacer directement dans les <strong>Maisons de Santé (MSP)</strong> et cabinets de groupe. Je peux me charger de la remise en main propre pour m'assurer que le flyer arrive bien en salle de pause.
+                                </p>
+                            </div>
+
+                            <!-- Lieux et Méthode -->
+                            <h3 class="text-lg font-bold text-slate-800 mt-6 mb-3"><i class="fa-solid fa-location-dot text-rose-500 mr-2"></i> Où les trouver ?</h3>
+                            <ul class="list-disc ml-6 text-slate-700 space-y-2 mb-6">
+                                <li><strong>Maisons de Santé Pluriprofessionnelles (MSP)</strong> de l'agglomération mulhousienne.</li>
+                                <li><strong>Réseau CPTS</strong> (Communauté Professionnelle Territoriale de Santé).</li>
+                                <li><strong>Cabinets infirmiers de groupe</strong> (recherche via Doctolib).</li>
+                            </ul>
+
+                            <h3 class="text-lg font-bold text-slate-800 mt-6 mb-3"><i class="fa-solid fa-handshake text-rose-500 mr-2"></i> Comment pourrions-nous les aborder ?</h3>
+                            <p class="text-slate-700 mb-6">Le <strong>dépôt physique</strong> me semble être une bonne piste. Nous pourrions laisser quelques exemplaires de notre flyer au secrétariat ou en salle de pause. L'idéal serait de ne pas demander un engagement lourd tout de suite.</p>
+
+                            <!-- Pitch Oral -->
+                            <h3 class="text-lg font-bold text-slate-800 mb-3"><i class="fa-solid fa-microphone-lines text-rose-500 mr-2"></i> Pitch suggéré (30 sec)</h3>
+                            <div class="pitch-bubble mb-6 italic text-slate-600">
+                                "Bonjour ! Je m'appelle [Prénom], je suis stagiaire pour l'association Santé en Commun. On organise des 'Cafés Santé' à Mulhouse pour faire de la prévention autrement. On cherche des soignants qui voudraient partager leur expertise ponctuellement. Est-ce que je peux laisser quelques flyers en salle d'attente ou pour votre équipe ?"
+                            </div>
+
+                            <!-- Modèles écrits complets -->
+                            <h3 class="text-lg font-bold text-slate-800 mt-6 mb-3"><i class="fa-solid fa-message text-rose-500 mr-2"></i> Idées de messages à utiliser</h3>
+                            
+                            <h4 class="font-bold text-rose-700 text-sm mb-2">Option A : Le Post-it (à agrafer sur le flyer déposé en salle de pause)</h4>
+                            <div class="message-box border-rose-300">
+                                "Bonjour l'équipe ! 👋 Nous sommes Santé en Commun, une jeune asso mulhousienne. Nous organisons des Cafés Santé pour faire de la prévention autrement. Si vous avez envie de partager votre expertise dans un cadre détendu (même pour 1h !), scannez le QR code. Merci pour votre travail au quotidien !"
+                            </div>
+
+                            <h4 class="font-bold text-rose-700 text-sm mt-4 mb-2">Option B : L'E-mail court (à envoyer au cabinet ou à la MSP)</h4>
+                            <div class="message-box border-rose-300">
+                                <strong>Objet :</strong> Une initiative de santé locale (et une invitation autour d'un café !)<br><br>
+                                Bonjour,<br>
+                                Je fais partie de l'association Santé en Commun. Nous créons un réseau de soignants prêts à s'impliquer ponctuellement dans nos quartiers pour faire de la prévention plus "humaine" (via des cafés santé).<br>
+                                Je vous joins notre présentation. Si la démarche résonne en vous, n'hésitez pas à remplir notre court formulaire via le QR code, ou à afficher ce flyer en salle de pause.<br>
+                                Merci d'avance pour votre temps !
+                            </div>
+                        </div>
+
+                        <!-- CONTENU CIBLE 2 : SOCIAUX -->
+                        <div id="content-sociaux" class="hidden target-content p-6">
+                            <h2 class="text-2xl font-bold text-orange-600 mb-6 border-b pb-2"><i class="fa-solid fa-hands-holding-circle mr-2"></i> Les Travailleurs Sociaux</h2>
+                            
+                            <!-- Analyse Cible -->
+                            <div class="grid grid-cols-2 gap-4 mb-6 bg-slate-50 p-4 rounded-lg">
+                                <div>
+                                    <h4 class="font-bold text-slate-800 text-sm uppercase"><i class="fa-solid fa-eye text-orange-500"></i> Leur réalité</h4>
+                                    <p class="text-slate-600 text-sm mt-1">Ils voient les dégâts du renoncement aux soins sur le terrain.</p>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-slate-800 text-sm uppercase"><i class="fa-solid fa-link text-orange-500"></i> Leur motivation</h4>
+                                    <p class="text-slate-600 text-sm mt-1">Trouver des partenaires fiables pour orienter les habitants qu'ils accompagnent.</p>
+                                </div>
+                            </div>
+
+                            <!-- Action Terrain -->
+                            <div class="mb-6">
+                                <h3 class="text-lg font-bold text-slate-800 mb-3"><i class="fa-solid fa-person-walking text-orange-500 mr-2"></i> Mon action terrain</h3>
+                                <p class="text-slate-700 bg-orange-50 p-4 rounded-xl border border-orange-100">
+                                    Je peux aller à la rencontre des coordinateurs des <strong>Centres Socio-Culturels</strong> (AFSCO, Pax, etc.) pour leur présenter le projet comme un outil de partenariat.
+                                </p>
+                            </div>
+
+                            <!-- Lieux et Méthode -->
+                            <h3 class="text-lg font-bold text-slate-800 mt-6 mb-3"><i class="fa-solid fa-location-dot text-orange-500 mr-2"></i> Où les trouver ?</h3>
+                            <ul class="list-disc ml-6 text-slate-700 space-y-2 mb-6">
+                                <li><strong>Centres Socio-Culturels</strong> des quartiers de Mulhouse (AFSCO, Pax, Papin, Lavoisier...).</li>
+                                <li><strong>CCAS</strong> (Centre Communal d'Action Sociale) de la Mairie.</li>
+                                <li><strong>LinkedIn</strong> (recherche par mots-clés : "travailleur social Mulhouse").</li>
+                            </ul>
+
+                            <h3 class="text-lg font-bold text-slate-800 mt-6 mb-3"><i class="fa-solid fa-handshake text-orange-500 mr-2"></i> Comment pourrions-nous les aborder ?</h3>
+                            <p class="text-slate-700 mb-6">Je suggère d'orienter l'approche vers un esprit de <strong>partenariat</strong> en nous appuyant sur notre flyer. L'idée est de leur montrer que nos Cafés Santé peuvent être un relais utile pour <em>leur</em> public.</p>
+
+                            <!-- Pitch Oral -->
+                            <h3 class="text-lg font-bold text-slate-800 mb-3"><i class="fa-solid fa-microphone-lines text-orange-500 mr-2"></i> Pitch suggéré (30 sec)</h3>
+                            <div class="pitch-bubble mb-6 italic text-slate-600">
+                                "Bonjour, je suis [Prénom] de Santé en Commun. On lance des 'Cafés Santé' pour aider les habitants à s'orienter sur leurs droits. On cherche des bénévoles du milieu social, mais on voulait aussi vous laisser nos flyers car nos cafés peuvent être un relais utile pour les gens que vous accompagnez ici."
+                            </div>
+
+                            <!-- Modèles écrits complets -->
+                            <h3 class="text-lg font-bold text-slate-800 mt-6 mb-3"><i class="fa-solid fa-message text-orange-500 mr-2"></i> Idées de messages à utiliser</h3>
+                            
+                            <h4 class="font-bold text-orange-700 text-sm mb-2">L'E-mail de contact (ou message LinkedIn)</h4>
+                            <div class="message-box border-orange-300">
+                                <strong>Objet :</strong> Partenariat et orientation - Santé en Commun Mulhouse<br><br>
+                                Bonjour [Prénom],<br>
+                                Je me permets de vous contacter car notre nouvelle association, Santé en Commun, organise des "Cafés Santé" dans les quartiers pour faciliter l'accès à l'information.<br>
+                                Nous cherchons des travailleurs sociaux pour étoffer notre équipe de bénévoles, mais aussi pour faire du lien : nos espaces pourraient être un excellent relais pour les personnes que vous accompagnez.<br>
+                                Je vous joins notre flyer. Seriez-vous disponible pour un court échange téléphonique (ou un café !) afin d'en discuter ?
+                            </div>
+                        </div>
+
+                        <!-- CONTENU CIBLE 3 : HABITANTS -->
+                        <div id="content-habitants" class="hidden target-content p-6">
+                            <h2 class="text-2xl font-bold text-teal-600 mb-6 border-b pb-2"><i class="fa-solid fa-house-chimney-user mr-2"></i> Les Habitants</h2>
+                            
+                            <!-- Analyse Cible -->
+                            <div class="grid grid-cols-2 gap-4 mb-6 bg-slate-50 p-4 rounded-lg">
+                                <div>
+                                    <h4 class="font-bold text-slate-800 text-sm uppercase"><i class="fa-solid fa-street-view text-teal-500"></i> Leur réalité</h4>
+                                    <p class="text-slate-600 text-sm mt-1">Ils connaissent la vie du quartier et ont "l'expérience patient".</p>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-slate-800 text-sm uppercase"><i class="fa-solid fa-people-group text-teal-500"></i> Leur motivation</h4>
+                                    <p class="text-slate-600 text-sm mt-1">Se sentir utiles, aider leurs voisins, faire des rencontres.</p>
+                                </div>
+                            </div>
+
+                            <!-- Action Terrain -->
+                            <div class="mb-6">
+                                <h3 class="text-lg font-bold text-slate-800 mb-3"><i class="fa-solid fa-person-walking text-teal-500 mr-2"></i> Mon action terrain</h3>
+                                <p class="text-slate-700 bg-teal-50 p-4 rounded-xl border border-teal-100">
+                                    Je me propose de faire le tour des <strong>commerces de proximité</strong> et pharmacies pour demander l'autorisation d'afficher notre flyer bien en vue.
+                                </p>
+                            </div>
+
+                            <!-- Lieux et Méthode -->
+                            <h3 class="text-lg font-bold text-slate-800 mt-6 mb-3"><i class="fa-solid fa-location-dot text-teal-500 mr-2"></i> Où les trouver ?</h3>
+                            <ul class="list-disc ml-6 text-slate-700 space-y-2 mb-6">
+                                <li><strong>Pharmacies de quartier</strong> (idéal pour le dépôt de flyers).</li>
+                                <li><strong>Groupes Facebook</strong> locaux ("Tu sais que tu viens de Mulhouse quand...", "Entraide Mulhouse").</li>
+                                <li><strong>Boucles WhatsApp</strong> de quartier ou familiales.</li>
+                            </ul>
+
+                            <h3 class="text-lg font-bold text-slate-800 mt-6 mb-3"><i class="fa-solid fa-handshake text-teal-500 mr-2"></i> Comment pourrions-nous les aborder ?</h3>
+                            <p class="text-slate-700 mb-6">Une approche conviviale et solidaire serait parfaite en diffusant notre flyer d'appel à bénévoles. Il me semble important de les rassurer : ils n'ont pas besoin d'être médecins pour aider.</p>
+
+                            <!-- Pitch Oral -->
+                            <h3 class="text-lg font-bold text-slate-800 mb-3"><i class="fa-solid fa-microphone-lines text-teal-500 mr-2"></i> Pitch suggéré (30 sec)</h3>
+                            <div class="pitch-bubble mb-6 italic text-slate-600">
+                                "Bonjour ! Je suis [Prénom], stagiaire pour l'association Santé en Commun. On crée des 'Cafés Santé' pour discuter entraide entre voisins. On cherche des habitants motivés pour nous aider. Est-ce que vous accepteriez de mettre ce flyer sur votre comptoir pour nous aider à nous faire connaître dans le quartier ?"
+                            </div>
+
+                            <!-- Modèles écrits complets -->
+                            <h3 class="text-lg font-bold text-slate-800 mt-6 mb-3"><i class="fa-solid fa-message text-teal-500 mr-2"></i> Idées de messages à utiliser</h3>
+                            
+                            <h4 class="font-bold text-teal-700 text-sm mb-2">Option A : Le Message WhatsApp (à faire tourner)</h4>
+                            <div class="message-box border-teal-300">
+                                "Salut ! 👋 Avec notre association Santé en Commun, on lance une campagne de recrutement de bénévoles pour animer des Cafés Santé dans nos quartiers. On cherche des soignants, mais SURTOUT des habitants motivés pour créer du lien (même de temps en temps) ! Pas besoin de diplôme médical, ton écoute suffit. Si ça te tente, inscris-toi via le flyer ci-joint ! N'hésite pas à faire tourner ce message ! 🙏"
+                            </div>
+
+                            <h4 class="font-bold text-teal-700 text-sm mt-4 mb-2">Option B : Le Post Facebook (pour les groupes locaux)</h4>
+                            <div class="message-box border-teal-300">
+                                "☕ Et si on parlait santé, mais avec un bon café ?<br>
+                                Bonjour Mulhouse ! 👋 Nous sommes Santé en Commun. Notre but ? Remettre l'entraide au cœur des soins dans nos quartiers.<br>
+                                Pour cela, nous avons besoin de VOUS. Professionnels ou simples habitants (actifs/retraités), votre place est parmi nous. Pas besoin d'être un expert médical : votre vécu et votre sourire suffisent.<br>
+                                👉 Ça vous intéresse ? Remplissez notre formulaire en 2 minutes en scannant le QR code sur l'image en dessous ! 👇 N'hésitez pas à partager !"
+                            </div>
+                        </div>
+
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        function selectTarget(targetId) {
+            document.querySelectorAll('.target-card').forEach(card => {
+                card.classList.remove('active', 'opacity-100');
+                card.classList.add('opacity-60');
+            });
+            const activeCard = document.getElementById(`card-${targetId}`);
+            activeCard.classList.add('active', 'opacity-100');
+            activeCard.classList.remove('opacity-60');
+
+            const infoBorder = document.getElementById('info-border');
+            infoBorder.className = 'bg-white rounded-2xl shadow-md border-t-4 p-0 overflow-hidden';
+            if(targetId === 'soignants') infoBorder.classList.add('border-rose-500');
+            if(targetId === 'sociaux') infoBorder.classList.add('border-orange-500');
+            if(targetId === 'habitants') infoBorder.classList.add('border-teal-500');
+
+            document.querySelectorAll('.target-content').forEach(el => el.classList.add('hidden'));
+            document.getElementById(`content-${targetId}`).classList.remove('hidden');
+
+            const detailsSection = document.getElementById('details-section');
+            detailsSection.classList.remove('hidden');
+            setTimeout(() => { detailsSection.classList.remove('opacity-0'); }, 50);
+            setTimeout(() => { document.getElementById('info-border').scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 150);
+        }
+    </script>
+</body>
+</html>
