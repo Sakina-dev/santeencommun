@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Santé en Commun - Mulhouse</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome pour les icônes -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts : Poppins & Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { 
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Poppins', 'sans-serif']
+                    },
+                    colors: { 
+                        brand: { 
+                            rose: '#C68585',
+                            roseLight: '#F5E6E6',
+                            green: '#92B4A7',
+                            greenLight: '#E8F1EC',
+                            bg: '#FCFCF9',
+                            text: '#1A1A1A'
+                        } 
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .smooth-scroll { scroll-behavior: smooth; }
+        .card-hover { transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease; }
+        .card-hover:hover { transform: translateY(-8px); box-shadow: 0 20px 40px -5px rgba(0, 0, 0, 0.1); }
+        
+        /* Formes organiques */
+        .blob-rose { border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; background-color: #A36464; opacity: 0.15; filter: blur(2px); }
+        .blob-green { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; background-color: #6A9684; opacity: 0.15; filter: blur(2px); }
+        
+        .flyer-box { background-color: #F3F4F1; border: 2px solid #E5E7E2; border-radius: 24px; }
+        
+        /* Animations des images de présentation */
+        .img-float { animation: float 6s ease-in-out infinite; }
+        .img-float-delay { animation: float 6s ease-in-out 3s infinite; }
+        @keyframes float {
+            0% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(1deg); }
+            100% { transform: translateY(0px) rotate(0deg); }
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-brand-roseLight via-white to-brand-greenLight text-brand-text font-sans smooth-scroll antialiased min-h-screen relative overflow-x-hidden">
+
+    <!-- Blobs décoratifs en arrière-plan -->
+    <div class="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] blob-rose -z-10 animate-[spin_60s_linear_infinite]"></div>
+    <div class="absolute top-[20%] right-[-10%] w-[600px] h-[600px] blob-green -z-10 animate-[spin_80s_linear_infinite_reverse]"></div>
+
+    <!-- Navigation -->
+    <nav class="bg-white/80 backdrop-blur-md sticky top-0 z-50 border-b border-brand-green/10">
+        <div class="max-w-6xl mx-auto px-4 h-20 flex items-center justify-between">
+            <div class="flex items-center gap-3 cursor-pointer" onclick="window.scrollTo(0,0)">
+                <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-sm border border-slate-100">
+                    <i class="fa-solid fa-leaf text-2xl text-brand-green"></i>
+                </div>
+                <span class="font-display font-bold text-xl tracking-tight text-slate-800">SANTÉ EN COMMUN</span>
+            </div>
+            <div class="hidden md:flex gap-8 font-medium text-slate-600">
+                <a href="#presentation" class="hover:text-brand-rose transition">Notre mission</a>
+                <a href="#appel" class="hover:text-brand-rose transition">Bénévolat</a>
+                <a href="#agenda" class="hover:text-brand-rose transition">Agenda</a>
+                <a href="#actualites" class="hover:text-brand-rose transition">Actualités</a>
+            </div>
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLSeF3h7aNZMrtGkSG-aq8YLx6TShwcO0qOQeOnfsvfv-fM54qA/viewform" target="_blank" class="bg-brand-text hover:bg-black text-white font-medium py-2.5 px-6 rounded-full transition shadow-md font-display tracking-wide text-sm">
+                Rejoindre l'équipe
+            </a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="relative py-20 px-4">
+        <div class="max-w-4xl mx-auto text-center flex flex-col items-center">
+            <!-- Logo style flyer -->
+            <div class="w-32 h-32 bg-white rounded-full shadow-md border-4 border-brand-green/20 flex flex-col items-center justify-center mb-8">
+                <div class="flex gap-1 mb-1">
+                    <i class="fa-solid fa-user text-brand-rose text-2xl"></i>
+                    <i class="fa-solid fa-user text-brand-green text-3xl -mt-2"></i>
+                    <i class="fa-solid fa-user text-brand-rose/70 text-2xl"></i>
+                </div>
+                <i class="fa-solid fa-hands-holding-circle text-brand-green text-xl"></i>
+            </div>
+
+            <h1 class="text-5xl md:text-7xl font-display font-extrabold text-slate-900 mb-2 tracking-tight">
+                SANTÉ EN COMMUN
+            </h1>
+            <p class="text-xl md:text-2xl font-medium text-slate-600 mb-12 uppercase tracking-widest text-brand-rose">La communauté du soin</p>
+
+            <h2 class="text-3xl md:text-4xl font-display font-bold text-slate-900 mb-6">
+                Parce que la santé est un bien commun
+            </h2>
+            <p class="text-lg text-slate-600 max-w-2xl mx-auto leading-relaxed mb-12">
+                Rejoignez une dynamique d'entraide, d'écoute et de soin au cœur des quartiers de Mulhouse.
+            </p>
+            
+            <a href="#presentation" class="w-14 h-14 rounded-full bg-white shadow-md flex items-center justify-center text-brand-green hover:text-white hover:bg-brand-green hover:scale-110 transition-all duration-300 animate-bounce">
+                <i class="fa-solid fa-arrow-down text-xl"></i>
+            </a>
+        </div>
+    </header>
+
+    <!-- Section Présentation -->
+    <section id="presentation" class="py-24 px-4 bg-white relative z-10 border-y border-slate-100">
+        <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            
+            <!-- Colonne Images -->
+            <div class="relative h-[500px] w-full hidden md:block">
+                <img src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&w=600&q=80" alt="Sourire et partage" class="absolute top-10 left-0 w-3/4 h-80 object-cover rounded-[2rem] shadow-2xl border-8 border-white img-float z-20 hover:scale-105 transition-transform duration-500">
+                <img src="https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?auto=format&fit=crop&w=600&q=80" alt="Discussion santé" class="absolute bottom-10 right-0 w-2/3 h-64 object-cover rounded-[2rem] shadow-xl border-8 border-white img-float-delay z-30 hover:scale-105 transition-transform duration-500">
+                <div class="absolute -top-6 -left-6 w-24 h-24 bg-brand-rose/20 rounded-full z-10"></div>
+                <div class="absolute bottom-20 -right-8 w-32 h-32 bg-brand-green/20 rounded-full z-10"></div>
+                <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full h-full border-2 border-dashed border-slate-200 rounded-full -z-10 animate-[spin_40s_linear_infinite]"></div>
+            </div>
+
+            <!-- Colonne Texte -->
+            <div class="flex flex-col justify-center">
+                <span class="text-brand-rose font-display font-bold tracking-wider uppercase mb-2">Notre démarche</span>
+                <h2 class="text-4xl md:text-5xl font-display font-extrabold text-slate-900 mb-6 leading-tight">
+                    Réinventer le soin, <br><span class="text-brand-green">recréer du lien.</span>
+                </h2>
+                <p class="text-lg text-slate-600 leading-relaxed mb-6">
+                    Créée en 2024, Santé en Commun est née d'un constat partagé : face aux déserts médicaux et aux difficultés administratives, le parcours de santé s'apparente parfois à un véritable parcours du combattant.
+                </p>
+                <p class="text-lg text-slate-600 leading-relaxed mb-8">
+                    Notre mission ? Promouvoir la santé communautaire et <strong>valoriser les savoirs expérientiels</strong>. Nous organisons des Cafés Santé pour accompagner les habitants dans l'accès aux droits, loin de la pression du cabinet médical classique.
+                </p>
+                
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div class="bg-brand-greenLight/50 p-4 rounded-2xl flex items-center gap-4">
+                        <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-sm text-brand-green text-xl"><i class="fa-solid fa-mug-hot"></i></div>
+                        <span class="font-bold text-slate-700">Cafés Santé<br><span class="text-sm font-normal text-slate-500">Convivialité & Prévention</span></span>
+                    </div>
+                    <div class="bg-brand-roseLight/50 p-4 rounded-2xl flex items-center gap-4">
+                        <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-sm text-brand-rose text-xl"><i class="fa-solid fa-users"></i></div>
+                        <span class="font-bold text-slate-700">100% Mixte<br><span class="text-sm font-normal text-slate-500">Soignants & Habitants</span></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section Appel à bénévoles -->
+    <section id="appel" class="py-24 px-4 relative z-10">
+        <div class="max-w-4xl mx-auto">
+            <div class="flyer-box p-8 md:p-12 relative overflow-hidden shadow-xl transform hover:scale-[1.01] transition-transform duration-500">
+                <div class="absolute top-0 left-0 w-3 h-full bg-brand-rose/50"></div>
+                <div class="absolute -bottom-10 -right-10 w-40 h-40 bg-brand-green/10 rounded-full blur-xl"></div>
+                
+                <h3 class="font-display font-bold text-3xl md:text-4xl text-slate-800 mb-8 uppercase tracking-wide flex items-center gap-4">
+                    <i class="fa-solid fa-bullhorn text-brand-rose"></i> Appel à bénévoles
+                </h3>
+                
+                <ul class="space-y-6 text-lg text-slate-700 relative z-10">
+                    <li class="flex items-start gap-4">
+                        <i class="fa-solid fa-check text-brand-green mt-1"></i>
+                        <p>Nous sommes un groupe mixte de chercheurs, de professionnels de santé et d'usagers, prêts à animer les quartiers de Mulhouse.</p>
+                    </li>
+                    <li class="flex items-start gap-4">
+                        <i class="fa-solid fa-check text-brand-green mt-1"></i>
+                        <div class="w-full">
+                            <p class="mb-4">Si vous souhaitez contribuer à ces espaces d'information, d'entraide et de prévention, nous recherchons :</p>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-2">
+                                <div class="bg-white px-4 py-3 rounded-xl shadow-sm border border-slate-100 flex items-center gap-3 font-semibold text-slate-800"><i class="fa-solid fa-handshake-angle text-brand-rose"></i> Travailleur.e social.e</div>
+                                <div class="bg-white px-4 py-3 rounded-xl shadow-sm border border-slate-100 flex items-center gap-3 font-semibold text-slate-800"><i class="fa-solid fa-user-nurse text-brand-green"></i> Infirmier.ère</div>
+                                <div class="bg-white px-4 py-3 rounded-xl shadow-sm border border-slate-100 flex items-center gap-3 font-semibold text-slate-800"><i class="fa-solid fa-baby text-brand-rose"></i> Sage-femme</div>
+                                <div class="bg-white px-4 py-3 rounded-xl shadow-sm border border-slate-100 flex items-center gap-3 font-semibold text-slate-800"><i class="fa-solid fa-stethoscope text-brand-green"></i> Médecin</div>
+                                <div class="bg-white px-4 py-3 rounded-xl shadow-sm border border-slate-100 flex items-center gap-3 font-semibold text-slate-800 sm:col-span-2"><i class="fa-solid fa-house-user text-brand-rose"></i> Usager.ère (Actifs ou retraités)</div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+
+                <p class="text-lg text-slate-700 mt-8 mb-8 font-medium italic text-center">
+                    "Votre engagement, même ponctuel, contribue à faire vivre une communauté du soin."
+                </p>
+
+                <div class="flex flex-col sm:flex-row items-center justify-between gap-6 bg-white p-6 rounded-2xl border border-slate-100 shadow-md">
+                    <div class="flex items-center gap-4 text-slate-800 font-display font-bold text-xl">
+                        <span>Prêt.e à nous rejoindre ? <br><span class="text-sm font-sans text-brand-rose uppercase tracking-widest">Remplissez le formulaire</span></span>
+                    </div>
+                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSeF3h7aNZMrtGkSG-aq8YLx6TShwcO0qOQeOnfsvfv-fM54qA/viewform" target="_blank" class="flex-shrink-0 bg-brand-text hover:bg-brand-green text-white font-display px-8 py-4 rounded-xl transition transform hover:scale-105 flex items-center gap-3 shadow-lg">
+                        C'est parti ! <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mode Admin Bandeau (Visible quand connecté) -->
+    <div id="admin-banner" class="hidden fixed bottom-0 left-0 w-full bg-slate-900 text-white p-4 z-[60] shadow-[0_-10px_20px_rgba(0,0,0,0.2)] flex justify-between items-center">
+        <div class="flex items-center gap-3 font-bold">
+            <i class="fa-solid fa-unlock text-yellow-400"></i> Mode Administrateur
+        </div>
+        <div class="flex gap-4">
+            <button onclick="openDashboard()" class="bg-brand-green hover:bg-[#7fa394] text-white px-5 py-2 rounded-lg text-sm font-bold transition flex items-center gap-2">
+                <i class="fa-solid fa-table-columns"></i> Ouvrir le Tableau de bord
+            </button>
+            <button onclick="logoutAdmin()" class="bg-red-500 hover:bg-red-600 text-white w-10 h-10 rounded-lg text-sm font-bold transition flex items-center justify-center" title="Quitter">
+                <i class="fa-solid fa-power-off"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Agenda Dynamique -->
+    <section id="agenda" class="py-24 px-4 bg-white/50 backdrop-blur-sm">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-16 flex flex-col items-center">
+                <span class="text-brand-green font-display font-bold tracking-wider uppercase mb-2">Rencontrons-nous</span>
+                <h2 class="font-display text-4xl md:text-5xl font-extrabold text-slate-900 mb-4">L'Agenda de l'Asso</h2>
+                <p class="text-lg text-slate-600">Rejoignez-nous lors de nos prochains événements à Mulhouse.</p>
+            </div>
+
+            <!-- Conteneur des cartes Agenda -->
+            <div id="agenda-container" class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Généré par JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Actualités Dynamiques -->
+    <section id="actualites" class="py-24 px-4 relative z-10 bg-white border-t border-slate-100">
+        <div class="max-w-6xl mx-auto">
+            <div class="flex flex-col md:flex-row justify-between items-center md:items-end mb-12 gap-4">
+                <div class="text-center md:text-left">
+                    <span class="text-brand-rose font-display font-bold tracking-wider uppercase mb-2 block">Le Blog</span>
+                    <h2 class="font-display text-4xl md:text-5xl font-extrabold text-slate-900 mb-2">Les dernières actus</h2>
+                </div>
+            </div>
+
+            <!-- Conteneur des articles -->
+            <div id="actus-container" class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Généré par JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-brand-text text-white py-16 px-4 relative z-20 pb-24">
+        <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8 text-center md:text-left">
+            <div>
+                <div class="flex items-center justify-center md:justify-start gap-3 mb-3">
+                    <i class="fa-solid fa-leaf text-brand-green text-2xl"></i>
+                    <span class="font-display font-bold text-2xl tracking-tight">SANTÉ EN COMMUN</span>
+                </div>
+                <p class="text-slate-400 text-sm font-medium">La communauté du soin à Mulhouse.</p>
+            </div>
+            
+            <div class="flex flex-col md:flex-row items-center gap-6 text-sm text-slate-300">
+                <p>Nous écrire :</p>
+                <div class="flex gap-4">
+                    <a href="mailto:santeencommun@gmail.com" class="bg-white/10 hover:bg-brand-rose text-white w-10 h-10 rounded-full flex items-center justify-center transition text-lg"><i class="fa-solid fa-envelope"></i></a>
+                    <a href="#" class="bg-white/10 hover:bg-[#0A66C2] text-white w-10 h-10 rounded-full flex items-center justify-center transition text-lg"><i class="fa-brands fa-linkedin-in"></i></a>
+                    
+                    <!-- Bouton Admin (Engrenage) -->
+                    <button onclick="openLoginModal()" class="bg-transparent text-slate-600 hover:text-white w-10 h-10 rounded-full flex items-center justify-center transition text-sm ml-4" title="Accès Équipe">
+                        <i class="fa-solid fa-gear"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- MODALE DE CONNEXION -->
+    <div id="login-modal" class="hidden fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[100] flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl p-8 w-full max-w-sm shadow-2xl relative transform transition-all scale-100">
+            <button onclick="closeLoginModal()" class="absolute top-4 right-4 text-slate-400 hover:text-red-500 text-2xl"><i class="fa-solid fa-xmark"></i></button>
+            
+            <div class="text-center mb-6">
+                <div class="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4 text-brand-green text-2xl">
+                    <i class="fa-solid fa-lock"></i>
+                </div>
+                <h3 class="font-display font-bold text-2xl text-slate-800">Espace Équipe</h3>
+                <p class="text-sm text-slate-500 mt-2">Veuillez entrer le mot de passe pour modifier le site.</p>
+            </div>
+
+            <form onsubmit="submitLogin(event)" class="space-y-4">
+                <div>
+                    <input type="password" id="admin-pwd" placeholder="Mot de passe" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-brand-green outline-none text-center font-bold">
+                </div>
+                <p id="login-error" class="text-red-500 text-xs text-center hidden font-bold">Mot de passe incorrect.</p>
+                <button type="submit" class="w-full bg-brand-green hover:bg-[#7fa394] text-white font-bold py-3 rounded-xl transition shadow-md">Se connecter</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- TABLEAU DE BORD ADMINISTRATEUR (Plein écran) -->
+    <div id="admin-dashboard" class="hidden fixed inset-0 bg-slate-50 z-[110] overflow-y-auto">
+        <!-- Header Admin -->
+        <div class="bg-slate-900 text-white py-5 px-4 sticky top-0 z-20 shadow-md">
+            <div class="max-w-6xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4">
+                <div class="flex items-center gap-3">
+                    <i class="fa-solid fa-gears text-3xl text-brand-green"></i>
+                    <div>
+                        <h2 class="font-display font-bold text-xl leading-none">Tableau de bord</h2>
+                        <span class="text-xs text-slate-400">Gestion du site</span>
+                    </div>
+                </div>
+                <button onclick="closeDashboard()" class="bg-white/10 hover:bg-white/20 px-5 py-2 rounded-xl font-bold transition flex items-center gap-2 text-sm">
+                    <i class="fa-solid fa-arrow-left"></i> Retour au site public
+                </button>
+            </div>
+        </div>
+
+        <!-- Contenu Admin -->
+        <div class="max-w-6xl mx-auto px-4 py-8 grid grid-cols-1 lg:grid-cols-2 gap-8">
+            
+            <!-- Colonne Agenda -->
+            <div class="bg-white rounded-3xl p-6 shadow-sm border border-slate-200">
+                <div class="flex justify-between items-center mb-6 pb-4 border-b border-slate-100">
+                    <h3 class="font-display font-bold text-xl text-slate-800 flex items-center gap-2">
+                        <i class="fa-regular fa-calendar text-brand-green"></i> Gérer l'Agenda
+                    </h3>
+                    <button onclick="openModal('agenda')" class="bg-brand-green text-white px-4 py-2 text-sm font-bold rounded-lg hover:scale-105 transition flex items-center gap-2">
+                        <i class="fa-solid fa-plus"></i> Ajouter
+                    </button>
+                </div>
+                <div id="admin-agenda-list" class="space-y-3">
+                    <!-- Liste générée par JS -->
+                </div>
+            </div>
+
+            <!-- Colonne Actus -->
+            <div class="bg-white rounded-3xl p-6 shadow-sm border border-slate-200">
+                <div class="flex justify-between items-center mb-6 pb-4 border-b border-slate-100">
+                    <h3 class="font-display font-bold text-xl text-slate-800 flex items-center gap-2">
+                        <i class="fa-solid fa-newspaper text-brand-rose"></i> Gérer le Blog
+                    </h3>
+                    <button onclick="openModal('actu')" class="bg-brand-rose text-white px-4 py-2 text-sm font-bold rounded-lg hover:scale-105 transition flex items-center gap-2">
+                        <i class="fa-solid fa-plus"></i> Ajouter
+                    </button>
+                </div>
+                <div id="admin-actus-list" class="space-y-3">
+                    <!-- Liste générée par JS -->
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Modale Ajout Formulaire (Pour le Dashboard) -->
+    <div id="admin-modal" class="hidden fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[120] flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl p-8 w-full max-w-lg shadow-2xl relative">
+            <button onclick="closeModal()" class="absolute top-4 right-4 text-slate-400 hover:text-red-500 text-2xl"><i class="fa-solid fa-xmark"></i></button>
+            <h3 id="modal-title" class="font-display font-bold text-2xl mb-6 text-slate-800">Ajouter du contenu</h3>
+            
+            <form id="admin-form" onsubmit="handleFormSubmit(event)" class="space-y-4">
+                <input type="hidden" id="form-type">
+                
+                <!-- Champs Actus -->
+                <div id="fields-actu" class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-bold text-slate-700 mb-1">Catégorie (ex: Recrutement)</label>
+                        <input type="text" id="actu-category" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2 focus:ring-2 focus:ring-brand-green outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold text-slate-700 mb-1">Titre de l'article</label>
+                        <input type="text" id="actu-title" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2 focus:ring-2 focus:ring-brand-green outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold text-slate-700 mb-1">Résumé</label>
+                        <textarea id="actu-desc" rows="3" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2 focus:ring-2 focus:ring-brand-green outline-none"></textarea>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold text-slate-700 mb-1">URL de l'image (Lien internet optionnel)</label>
+                        <input type="text" id="actu-image" placeholder="https://..." class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2 focus:ring-2 focus:ring-brand-green outline-none">
+                    </div>
+                </div>
+
+                <!-- Champs Agenda -->
+                <div id="fields-agenda" class="space-y-4 hidden">
+                    <div>
+                        <label class="block text-sm font-bold text-slate-700 mb-1">Date (ex: Samedi 12 Mai)</label>
+                        <input type="text" id="agenda-date" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2 focus:ring-2 focus:ring-brand-rose outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold text-slate-700 mb-1">Horaires (ex: 14h00 - 16h00)</label>
+                        <input type="text" id="agenda-time" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2 focus:ring-2 focus:ring-brand-rose outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold text-slate-700 mb-1">Titre de l'événement</label>
+                        <input type="text" id="agenda-title" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2 focus:ring-2 focus:ring-brand-rose outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold text-slate-700 mb-1">Lieu (ex: CSC Pax)</label>
+                        <input type="text" id="agenda-location" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2 focus:ring-2 focus:ring-brand-rose outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold text-slate-700 mb-1">Description courte</label>
+                        <textarea id="agenda-desc" rows="2" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2 focus:ring-2 focus:ring-brand-rose outline-none"></textarea>
+                    </div>
+                </div>
+
+                <button type="submit" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-3 rounded-xl mt-4 transition shadow-md">Enregistrer</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- LOGIQUE JAVASCRIPT DU SITE ET DU CMS -->
+    <script>
+        // --- 1. Base de données en mémoire ---
+        let state = {
+            isAdmin: false,
+            agenda: [
+                { id: 1, tag: "Prochainement", date: "Samedi 12 Mai", time: "14h00 - 16h30", title: "Café Santé : Vos droits", desc: "Autour d'un café, venez discuter avec nos travailleurs sociaux de vos démarches. Ouvert à tous.", location: "Centre Socio-Culturel Pax" },
+                { id: 2, tag: "", date: "Mardi 25 Mai", time: "18h00 - 20h00", title: "Rencontre Bénévoles", desc: "Réunion d'information pour toutes celles et ceux qui souhaitent rejoindre l'aventure Santé en Commun !", location: "Local associatif (Drouot)" },
+                { id: 3, tag: "", date: "Jeudi 06 Juin", time: "09h00 - 12h00", title: "Permanence Écoute", desc: "Permanence libre pour répondre à vos questions de prévention avec l'aide de soignants bienveillants.", location: "Pharmacie des Coteaux" }
+            ],
+            actus: [
+                { id: 1, category: "Rapport Universitaire", title: "Retour sur notre collaboration avec le Master ESS", desc: "Les étudiants de l'Université de Haute-Alsace ont mené un voyage apprenant dans les quartiers de Mulhouse. Une belle dynamique de recherche !", image: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=400&q=80", isIcon: false },
+                { id: 2, category: "Recrutement", title: "Notre campagne de recrutement est lancée !", desc: "Pour animer nos espaces d'entraide, nous diffusons nos flyers dans tout Mulhouse. Votre place est parmi nous, rejoignez-nous.", icon: "fa-bullhorn", isIcon: true }
+            ]
+        };
+
+        // --- 2. Fonctions d'Affichage du site public ---
+        function renderAgenda() {
+            const container = document.getElementById('agenda-container');
+            container.innerHTML = '';
+            
+            state.agenda.forEach(item => {
+                const tagHtml = item.tag ? `<div class="absolute top-0 right-0 bg-brand-green text-white font-display font-bold px-4 py-1.5 rounded-bl-2xl rounded-tr-3xl text-xs uppercase tracking-wide z-10">${item.tag}</div>` : '';
+
+                const html = `
+                <div class="bg-white rounded-3xl p-8 shadow-sm border border-brand-green/30 card-hover relative">
+                    ${tagHtml}
+                    <div class="text-brand-rose font-display font-bold text-xl mt-2">${item.date}</div>
+                    <div class="text-slate-500 font-medium mb-6 text-sm"><i class="fa-regular fa-clock mr-1"></i> ${item.time}</div>
+                    <h3 class="font-display text-2xl font-bold text-slate-800 mb-3">${item.title}</h3>
+                    <p class="text-slate-600 mb-8 leading-relaxed">${item.desc}</p>
+                    <div class="flex items-center text-sm font-medium text-slate-700 bg-brand-greenLight/50 p-4 rounded-2xl mt-auto">
+                        <i class="fa-solid fa-location-dot text-brand-green mr-3 text-lg"></i> ${item.location}
+                    </div>
+                </div>`;
+                container.innerHTML += html;
+            });
+        }
+
+        function renderActus() {
+            const container = document.getElementById('actus-container');
+            container.innerHTML = '';
+
+            state.actus.forEach(item => {
+                let mediaHtml = '';
+                if(item.isIcon) {
+                    mediaHtml = `<div class="w-full sm:w-48 h-48 bg-brand-roseLight rounded-2xl flex-shrink-0 flex items-center justify-center border border-brand-rose/20 relative">
+                                    <i class="fa-solid ${item.icon || 'fa-star'} text-5xl text-brand-rose"></i>
+                                 </div>`;
+                } else {
+                    const bgImage = item.image ? item.image : "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=400&q=80";
+                    mediaHtml = `<div class="w-full sm:w-48 h-48 bg-slate-100 rounded-2xl flex-shrink-0 bg-cover bg-center border border-slate-200 relative" style="background-image: url('${bgImage}');"></div>`;
+                }
+
+                const html = `
+                <article class="flex flex-col sm:flex-row gap-6 bg-white p-5 rounded-3xl card-hover shadow-sm border border-slate-100">
+                    ${mediaHtml}
+                    <div class="flex flex-col justify-center py-2 flex-grow">
+                        <span class="text-brand-rose font-display font-bold text-xs mb-2 uppercase tracking-wider">${item.category}</span>
+                        <h3 class="font-display text-xl font-bold text-slate-800 mb-3 leading-tight">${item.title}</h3>
+                        <p class="text-slate-600 text-sm mb-4 line-clamp-3">${item.desc}</p>
+                        <a href="#" class="text-brand-green font-medium text-sm hover:underline mt-auto flex items-center gap-1">Lire la suite <i class="fa-solid fa-arrow-right text-xs"></i></a>
+                    </div>
+                </article>`;
+                container.innerHTML += html;
+            });
+        }
+
+        // --- 3. Fonctions d'Affichage du Tableau de bord Admin ---
+        function renderAdminDashboard() {
+            // Liste Agenda
+            const agendaList = document.getElementById('admin-agenda-list');
+            agendaList.innerHTML = '';
+            if (state.agenda.length === 0) agendaList.innerHTML = '<p class="text-slate-400 text-sm italic">Aucun événement.</p>';
+            state.agenda.forEach(item => {
+                agendaList.innerHTML += `
+                <div class="flex justify-between items-center bg-slate-50 p-4 rounded-xl border border-slate-100">
+                    <div>
+                        <p class="font-bold text-slate-800 text-sm">${item.title}</p>
+                        <p class="text-xs text-slate-500">${item.date} • ${item.location}</p>
+                    </div>
+                    <button onclick="deleteItem('agenda', ${item.id})" class="text-red-500 hover:text-white hover:bg-red-500 w-8 h-8 rounded-lg flex items-center justify-center transition border border-red-200">
+                        <i class="fa-solid fa-trash"></i>
+                    </button>
+                </div>`;
+            });
+
+            // Liste Actus
+            const actusList = document.getElementById('admin-actus-list');
+            actusList.innerHTML = '';
+            if (state.actus.length === 0) actusList.innerHTML = '<p class="text-slate-400 text-sm italic">Aucune actualité.</p>';
+            state.actus.forEach(item => {
+                actusList.innerHTML += `
+                <div class="flex justify-between items-center bg-slate-50 p-4 rounded-xl border border-slate-100">
+                    <div>
+                        <span class="text-[10px] uppercase font-bold text-brand-green">${item.category}</span>
+                        <p class="font-bold text-slate-800 text-sm line-clamp-1">${item.title}</p>
+                    </div>
+                    <button onclick="deleteItem('actu', ${item.id})" class="text-red-500 hover:text-white hover:bg-red-500 w-8 h-8 rounded-lg flex items-center justify-center transition border border-red-200">
+                        <i class="fa-solid fa-trash"></i>
+                    </button>
+                </div>`;
+            });
+        }
+
+        // --- 4. Logique de Connexion & Modales ---
+        function openLoginModal() {
+            document.getElementById('login-modal').classList.remove('hidden');
+            document.getElementById('admin-pwd').value = '';
+            document.getElementById('login-error').classList.add('hidden');
+        }
+
+        function closeLoginModal() {
+            document.getElementById('login-modal').classList.add('hidden');
+        }
+
+        function submitLogin(e) {
+            e.preventDefault();
+            const pwd = document.getElementById('admin-pwd').value;
+            if (pwd === "sante2024") {
+                state.isAdmin = true;
+                closeLoginModal();
+                document.getElementById('admin-banner').classList.remove('hidden');
+                openDashboard(); // Ouvre directement le tableau de bord
+            } else {
+                document.getElementById('login-error').classList.remove('hidden');
+            }
+        }
+
+        function logoutAdmin() {
+            state.isAdmin = false;
+            document.getElementById('admin-banner').classList.add('hidden');
+            closeDashboard();
+        }
+
+        function openDashboard() {
+            document.getElementById('admin-dashboard').classList.remove('hidden');
+            document.body.style.overflow = 'hidden'; // Empêche le scroll derrière
+            renderAdminDashboard();
+        }
+
+        function closeDashboard() {
+            document.getElementById('admin-dashboard').classList.add('hidden');
+            document.body.style.overflow = 'auto'; // Remet le scroll
+            // Met à jour le site public quand on ferme le dashboard
+            renderAgenda();
+            renderActus();
+        }
+
+        // --- 5. Logique d'Ajout / Suppression ---
+        function deleteItem(type, id) {
+            if(!confirm("Supprimer définitivement cet élément ?")) return;
+            if(type === 'agenda') {
+                state.agenda = state.agenda.filter(item => item.id !== id);
+            } else {
+                state.actus = state.actus.filter(item => item.id !== id);
+            }
+            renderAdminDashboard(); // Met à jour la liste en direct
+        }
+
+        function openModal(type) {
+            document.getElementById('admin-modal').classList.remove('hidden');
+            document.getElementById('form-type').value = type;
+            
+            if(type === 'actu') {
+                document.getElementById('modal-title').innerText = "Nouvel article de blog";
+                document.getElementById('fields-actu').classList.remove('hidden');
+                document.getElementById('fields-agenda').classList.add('hidden');
+            } else {
+                document.getElementById('modal-title').innerText = "Nouvel événement";
+                document.getElementById('fields-actu').classList.add('hidden');
+                document.getElementById('fields-agenda').classList.remove('hidden');
+            }
+        }
+
+        function closeModal() {
+            document.getElementById('admin-modal').classList.add('hidden');
+            document.getElementById('admin-form').reset();
+        }
+
+        function handleFormSubmit(e) {
+            e.preventDefault();
+            const type = document.getElementById('form-type').value;
+            
+            if(type === 'actu') {
+                const newActu = {
+                    id: Date.now(),
+                    category: document.getElementById('actu-category').value || "Actualité",
+                    title: document.getElementById('actu-title').value,
+                    desc: document.getElementById('actu-desc').value,
+                    image: document.getElementById('actu-image').value,
+                    isIcon: document.getElementById('actu-image').value.trim() === '',
+                    icon: "fa-bullhorn"
+                };
+                state.actus.unshift(newActu);
+            } else {
+                const newEvent = {
+                    id: Date.now(),
+                    tag: "Nouveau",
+                    date: document.getElementById('agenda-date').value,
+                    time: document.getElementById('agenda-time').value,
+                    title: document.getElementById('agenda-title').value,
+                    location: document.getElementById('agenda-location').value,
+                    desc: document.getElementById('agenda-desc').value
+                };
+                state.agenda.unshift(newEvent);
+            }
+            
+            closeModal();
+            renderAdminDashboard(); // Met à jour le dashboard en direct
+        }
+
+        // --- 6. Initialisation ---
+        window.onload = () => {
+            renderAgenda();
+            renderActus();
+        };
+    </script>
+</body>
+</html>
