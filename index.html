@@ -16,27 +16,35 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- FontAwesome pour les icônes -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts : Poppins & Inter -->
+    <!-- Google Fonts : Poppins (corps) · Bebas Neue (titres) · Permanent Marker + Caveat (annotations) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Caveat:wght@500;600;700&family=Permanent+Marker&family=Poppins:wght@400;500;600;700;800&family=Rubik+Bubbles&display=swap" rel="stylesheet">
     
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     fontFamily: { 
-                        sans: ['Inter', 'sans-serif'],
-                        display: ['Poppins', 'sans-serif']
+                        sans: ['Poppins', 'sans-serif'],
+                        display: ['"Bebas Neue"', 'sans-serif'],
+                        marker: ['"Permanent Marker"', 'cursive'],
+                        hand: ['"Caveat"', 'cursive']
                     },
                     colors: { 
                         brand: { 
-                            rose: '#C68585',
-                            roseLight: '#F5E6E6',
-                            green: '#92B4A7',
-                            greenLight: '#E8F1EC',
-                            bg: '#FCFCF9',
-                            text: '#1A1A1A'
+                            terracotta: '#C35A3B',
+                            sage: '#9BA58B',
+                            kraft: '#D2AD81',
+                            yellow: '#FBD85D',
+                            bg: '#F9F8F6',
+                            ink: '#1A1A1A',
+                            text: '#1A1A1A',
+                            /* alias rétro-compatibles avec l'ancien markup */
+                            rose: '#C35A3B',
+                            roseLight: '#F0D8CD',
+                            green: '#9BA58B',
+                            greenLight: '#E4E7DC'
                         } 
                     }
                 }
@@ -44,18 +52,135 @@
         }
     </script>
     <style>
-        /* Formes organiques */
-        .blob-rose { border-radius: 38% 62% 73% 27% / 45% 36% 64% 55%; background-color: #C68585; opacity: 0.12; filter: blur(16px); }
-        .blob-green { border-radius: 61% 39% 29% 71% / 57% 44% 56% 43%; background-color: #92B4A7; opacity: 0.12; filter: blur(16px); }
-        .blob-soft { border-radius: 51% 49% 35% 65% / 56% 38% 62% 44%; background-color: #E8F1EC; opacity: 0.13; filter: blur(22px); }
-        .appel-bg { background-image: url('benevoles.png'); }
-        @media (max-width: 767px) {
-            .appel-bg { background-image: none; }
+        :root{
+            --ink:#1A1A1A; --paper:#F9F8F6; --terracotta:#C35A3B;
+            --sage:#9BA58B; --kraft:#D2AD81; --yellow:#FBD85D;
         }
 
+        /* Texture papier Canson : grain fin + fines vergeures diagonales */
+        body{
+            background-color:var(--paper);
+            background-image:
+                url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='c'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23c)' opacity='0.08'/%3E%3C/svg%3E"),
+                repeating-linear-gradient(115deg, rgba(26,26,26,.022) 0 1px, transparent 1px 6px),
+                repeating-linear-gradient(25deg, rgba(26,26,26,.015) 0 1px, transparent 1px 7px);
+        }
+
+        /* Polices d'accent */
+        .font-marker{ font-family:'Permanent Marker',cursive; }
+        .font-hand{ font-family:'Caveat',cursive; }
+        .font-graffiti{ font-family:'Rubik Bubbles', system-ui, cursive; }
+        /* Bebas Neue respire mieux avec un léger interlettrage */
+        .font-display{ letter-spacing:.02em; }
+
+        /* Bords déchirés / découpés à la main */
+        .torn{ border-radius:255px 15px 225px 15px/15px 225px 15px 255px; }
+        .torn-2{ border-radius:15px 225px 15px 255px/255px 15px 225px 15px; }
+        .torn-soft{ border-radius:22px 60px 20px 55px/52px 22px 58px 24px; }
+
+        /* Ombres dures (brutalisme / affiche collée) */
+        .shadow-hard{ box-shadow:6px 6px 0 0 var(--ink); }
+        .shadow-hard-sm{ box-shadow:4px 4px 0 0 var(--ink); }
+        .shadow-hard-lg{ box-shadow:10px 10px 0 0 var(--ink); }
+        .shadow-hard-terra{ box-shadow:6px 6px 0 0 var(--terracotta); }
+        .shadow-hard-sage{ box-shadow:6px 6px 0 0 var(--sage); }
+
+        /* Bordures encre */
+        .border-ink{ border:2.5px solid var(--ink); }
+        .border-ink-3{ border:3px solid var(--ink); }
+
+        /* Rotations « posé main » */
+        .tilt{ transform:rotate(var(--r,0deg)); }
+        .r-3{ --r:-3deg } .r-2{ --r:-2deg } .r-1{ --r:-1deg }
+        .r1{ --r:1deg } .r2{ --r:2deg } .r3{ --r:3deg }
+
+        /* Éléments interactifs « sticker » (boutons) */
+        .sticker{ --r:0deg; transform:rotate(var(--r)); transition:transform .14s ease, box-shadow .14s ease; }
+        .sticker:hover{ transform:rotate(var(--r)) translate(-2px,-3px); }
+        .sticker:active{ transform:rotate(var(--r)) translate(2px,2px); }
+
+        /* Surligneur jaune (coup de stabilo) */
+        .highlight-yellow{
+            background-image:linear-gradient(transparent 52%, var(--yellow) 52% 92%, transparent 92%);
+            padding:0 .1em; -webkit-box-decoration-break:clone; box-decoration-break:clone;
+        }
+        .highlight-terra{
+            background-image:linear-gradient(transparent 52%, rgba(195,90,59,.30) 52% 92%, transparent 92%);
+            padding:0 .1em; -webkit-box-decoration-break:clone; box-decoration-break:clone;
+        }
+
+        /* Soulignage marqueur (trait tracé sous un mot) */
+        .marker-underline{ position:relative; }
+        .marker-underline::after{
+            content:""; position:absolute; left:-2%; right:-2%; bottom:-.12em; height:.26em;
+            background:var(--terracotta); opacity:.9; z-index:-1;
+            border-radius:255px 9px 225px 9px/9px 225px 9px 255px;
+        }
+
+        /* Scotch virtuel */
+        .tape-piece{
+            position:absolute; z-index:30; width:104px; height:30px;
+            background:rgba(251,216,93,.55);
+            box-shadow:0 1px 3px rgba(0,0,0,.12);
+            border-left:1px dashed rgba(0,0,0,.10); border-right:1px dashed rgba(0,0,0,.10);
+        }
+        .tape-piece::after{
+            content:""; position:absolute; inset:0;
+            background:repeating-linear-gradient(90deg,transparent 0 6px, rgba(255,255,255,.20) 6px 7px);
+        }
+
+        /* Scraps de papier décoratifs (remplacent les blobs flous) */
+        .scrap{ position:absolute; opacity:.5; }
+
+        /* Fond texturé « block-print » mulhousien (indiennes) en tons sauge/terracotta/kraft */
+        .print-pattern{
+            background-image:
+                radial-gradient(circle at 50% 16%, rgba(195,90,59,.10) 0 7px, transparent 8px),
+                radial-gradient(circle at 16% 50%, rgba(155,165,139,.13) 0 5px, transparent 6px),
+                radial-gradient(circle at 84% 50%, rgba(155,165,139,.13) 0 5px, transparent 6px),
+                radial-gradient(circle at 50% 84%, rgba(210,173,129,.13) 0 7px, transparent 8px),
+                radial-gradient(circle at 50% 50%, rgba(195,90,59,.07) 0 3px, transparent 4px);
+            background-size:118px 118px;
+            background-position:center;
+        }
+
+        /* Trace de tasse de café */
+        .coffee-ring{
+            border-radius:50%;
+            border:6px solid rgba(160,82,45,.18);
+            box-shadow:inset 0 0 0 2px rgba(160,82,45,.07);
+        }
+        /* Éclaboussure d'encre */
+        .ink-splat{
+            background:radial-gradient(circle, rgba(155,165,139,.30) 0 42%, transparent 44%);
+            border-radius:42% 58% 63% 37% / 47% 39% 61% 53%;
+        }
+        /* Tampon encreur pressé main (flèche de défilement) */
+        .stamp{
+            border-radius:50%;
+            border:3px solid var(--terracotta);
+            box-shadow:inset 0 0 0 3px rgba(195,90,59,.30);
+            color:var(--terracotta);
+            background:rgba(195,90,59,.06);
+        }
+
+        /* Carrousel : masque la barre de défilement, garde le scroll actif */
+        .no-scrollbar{ -ms-overflow-style:none; scrollbar-width:none; }
+        .no-scrollbar::-webkit-scrollbar{ display:none; }
+
+        /* Effet survol des cartes (réutilise le nom existant côté JS) */
+        .card-hover{ transition:transform .15s ease, box-shadow .15s ease; }
+        .card-hover:hover{ transform:translate(-2px,-3px) rotate(-.5deg); box-shadow:10px 10px 0 0 var(--ink); }
+
+        /* Décalage d'ancre sous la nav fixe */
+        section[id]{ scroll-margin-top:96px; }
+
+        @media (prefers-reduced-motion: reduce){
+            .sticker, .card-hover{ transition:none; }
+        }
     </style>
 </head>
-<body class="min-h-screen overflow-x-hidden bg-gradient-to-r from-brand-roseLight/60 via-[#f8f2ef] to-brand-greenLight/60 font-sans text-brand-text antialiased">
+<body class="min-h-screen overflow-x-hidden bg-brand-bg font-sans text-brand-ink antialiased">
     <a href="#contenu-principal" class="sr-only focus:not-sr-only focus:absolute focus:z-[999] focus:m-3 focus:rounded-lg focus:bg-white focus:px-4 focus:py-2 focus:text-slate-900">
         Aller au contenu principal
     </a>
@@ -63,43 +188,36 @@
     <main id="contenu-principal">
     <!-- Île : plein écran (hauteur viewport), nav + hero -->
     <div class="relative flex min-h-screen w-full flex-col overflow-hidden">
-        <!-- Blobs tout en haut du wrapper, derrière tout le contenu -->
-        <div class="pointer-events-none absolute inset-0 -z-10 overflow-hidden" aria-hidden="true">
-            <div class="absolute -left-[8%] -top-[18%] h-[420px] w-[420px] blob-rose animate-[spin_70s_linear_infinite] sm:h-[480px] sm:w-[480px]"></div>
-            <div class="absolute -right-[10%] top-[8%] h-[500px] w-[500px] blob-green animate-[spin_90s_linear_infinite_reverse] sm:h-[560px] sm:w-[560px]"></div>
-            <div class="absolute bottom-[-14%] left-[18%] h-[460px] w-[460px] blob-soft"></div>
-        </div>
-
         <!-- Header flottant : superposé sur l'image -->
-        <nav class="fixed left-1/2 top-4 z-50 w-[calc(100%-0.35rem)] max-w-[min(100%,1520px)] -translate-x-1/2 shrink-0 rounded-xl border border-brand-green/20 bg-white/80 shadow-[0_8px_30px_-12px_rgba(26,26,26,0.08)] backdrop-blur-md md:top-6 md:w-[calc(100%-0.6rem)] md:rounded-2xl">
-            <div class="relative mx-auto flex min-h-0 w-full max-w-none items-center justify-between gap-2 px-3 py-1.5 sm:gap-3 sm:px-4 sm:py-2 md:grid md:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] md:items-center md:gap-x-3 md:gap-y-0 md:px-5 md:py-1.5 lg:gap-x-4 lg:px-6">
-                <!-- Gauche : logo (téléphone + desktop) -->
-                <div class="flex min-w-0 shrink-0 items-center md:min-w-0 md:justify-self-start">
-                    <button type="button" class="flex shrink-0 cursor-pointer items-center justify-center rounded-full focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-slate-900" onclick="window.scrollTo(0,0)" aria-label="Retour en haut de page">
+        <nav class="fixed left-1/2 top-3 z-50 w-[calc(100%-0.75rem)] max-w-[min(100%,1480px)] -translate-x-1/2 shrink-0 border-ink bg-brand-bg/95 shadow-hard-sm backdrop-blur-sm md:top-5 md:w-[calc(100%-1.25rem)] md:border-ink-3 md:shadow-hard">
+            <div class="relative mx-auto flex min-h-0 w-full max-w-none items-center justify-between gap-2 px-3 py-2 sm:gap-3 sm:px-4 lg:grid lg:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] lg:items-center lg:gap-x-4 lg:px-6">
+                <!-- Gauche : logo (wordmark) -->
+                <div class="flex min-w-0 shrink-0 items-center lg:justify-self-start">
+                    <button type="button" class="flex shrink-0 cursor-pointer items-center justify-center rounded-full focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-ink" onclick="window.scrollTo(0,0)" aria-label="Santé en Commun — retour en haut de page">
                         <img
                             src="logoheader.png"
                             alt="Santé en Commun — la communauté du soin, Mulhouse"
-                            class="h-8 w-auto object-contain sm:h-9 md:h-9 md:max-h-9 lg:h-10 lg:max-h-10"
+                            class="h-12 w-auto object-contain sm:h-14 lg:h-16"
                             decoding="async"
                             fetchpriority="high"
                         />
                     </button>
                 </div>
-                <!-- Centre : liens (desktop), colonne auto centrée entre deux 1fr pour un vrai axe visuel -->
-                <nav class="hidden min-h-0 min-w-0 items-center justify-center gap-x-4 md:flex md:justify-self-center lg:gap-x-6" aria-label="Navigation principale">
-                    <a href="#presentation" class="whitespace-nowrap text-sm font-medium leading-normal text-slate-600 transition hover:text-brand-rose">Notre mission</a>
-                    <a href="#appel" class="whitespace-nowrap text-sm font-medium leading-normal text-slate-600 transition hover:text-brand-rose">Bénévolat</a>
-                    <a href="#agenda" class="whitespace-nowrap text-sm font-medium leading-normal text-slate-600 transition hover:text-brand-rose">Agenda</a>
-                    <a href="#actualites" class="whitespace-nowrap text-sm font-medium leading-normal text-slate-600 transition hover:text-brand-rose">Actualités</a>
+                <!-- Centre : liens « post-it » Poppins (desktop) -->
+                <nav class="hidden min-h-0 min-w-0 items-center justify-center gap-x-3 lg:flex lg:justify-self-center" aria-label="Navigation principale">
+                    <a href="#presentation" class="sticker r-1 whitespace-nowrap border-ink bg-brand-bg px-3 py-1.5 font-sans text-xs font-semibold uppercase tracking-wide text-brand-ink shadow-hard-sm transition-colors hover:bg-brand-yellow xl:text-sm">Notre mission</a>
+                    <a href="#appel" class="sticker r1 whitespace-nowrap border-ink bg-brand-bg px-3 py-1.5 font-sans text-xs font-semibold uppercase tracking-wide text-brand-ink shadow-hard-sm transition-colors hover:bg-brand-yellow xl:text-sm">Bénévolat</a>
+                    <a href="#agenda" class="sticker r-1 whitespace-nowrap border-ink bg-brand-bg px-3 py-1.5 font-sans text-xs font-semibold uppercase tracking-wide text-brand-ink shadow-hard-sm transition-colors hover:bg-brand-yellow xl:text-sm">Agenda</a>
+                    <a href="#actualites" class="sticker r1 whitespace-nowrap border-ink bg-brand-bg px-3 py-1.5 font-sans text-xs font-semibold uppercase tracking-wide text-brand-ink shadow-hard-sm transition-colors hover:bg-brand-yellow xl:text-sm">Actualités</a>
                 </nav>
-                <!-- Droite : menu burger (téléphone) + CTA (desktop) -->
-                <div class="flex shrink-0 items-center justify-end md:min-w-0 md:justify-self-end">
-                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSeF3h7aNZMrtGkSG-aq8YLx6TShwcO0qOQeOnfsvfv-fM54qA/viewform" target="_blank" rel="noopener noreferrer" class="hidden shrink-0 items-center rounded-full bg-black px-3.5 py-1.5 font-display text-xs font-medium tracking-wide text-white shadow-sm transition hover:bg-gray-800 sm:px-4 sm:py-2 md:inline-flex md:px-4 md:py-1.5">
-                        Rejoindre l'équipe
+                <!-- Droite : menu burger (mobile/tablette) + CTA sticker arrondi (desktop) -->
+                <div class="flex shrink-0 items-center justify-end lg:min-w-0 lg:justify-self-end">
+                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSeF3h7aNZMrtGkSG-aq8YLx6TShwcO0qOQeOnfsvfv-fM54qA/viewform" target="_blank" rel="noopener noreferrer" class="sticker r-2 hidden shrink-0 items-center gap-2 rounded-full border-ink-3 bg-brand-terracotta px-4 py-2 font-display text-sm uppercase tracking-wide text-white shadow-hard-sm hover:shadow-hard lg:inline-flex">
+                        Rejoindre l'équipe <span aria-hidden="true"></span>
                     </a>
                     <button
                         type="button"
-                        class="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-brand-green/20 bg-white/70 text-slate-700 transition hover:bg-white md:hidden"
+                        class="inline-flex h-10 w-10 shrink-0 items-center justify-center border-ink bg-brand-yellow text-brand-ink shadow-hard-sm transition hover:bg-brand-kraft lg:hidden"
                         aria-label="Ouvrir le menu"
                         aria-controls="mobile-menu"
                         aria-expanded="false"
@@ -110,92 +228,97 @@
                     </button>
                 </div>
             </div>
-            <div id="mobile-menu" class="hidden border-t border-brand-green/15 px-4 pb-4 sm:px-5 md:hidden">
-                <div class="flex flex-col gap-2 pt-3 text-sm font-medium text-slate-700">
-                    <a href="#presentation" class="rounded-xl px-3 py-2 transition hover:bg-brand-greenLight/70" onclick="closeMobileMenu()">Notre mission</a>
-                    <a href="#appel" class="rounded-xl px-3 py-2 transition hover:bg-brand-greenLight/70" onclick="closeMobileMenu()">Bénévolat</a>
-                    <a href="#agenda" class="rounded-xl px-3 py-2 transition hover:bg-brand-greenLight/70" onclick="closeMobileMenu()">Agenda</a>
-                    <a href="#actualites" class="rounded-xl px-3 py-2 transition hover:bg-brand-greenLight/70" onclick="closeMobileMenu()">Actualités</a>
-                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSeF3h7aNZMrtGkSG-aq8YLx6TShwcO0qOQeOnfsvfv-fM54qA/viewform" target="_blank" rel="noopener noreferrer" class="mt-2 inline-flex items-center justify-center rounded-full bg-black px-5 py-2.5 font-display text-xs font-medium tracking-wide text-white shadow-sm transition hover:bg-gray-800" onclick="closeMobileMenu()">
-                        Rejoindre l'équipe
+            <div id="mobile-menu" class="hidden border-t-2 border-dashed border-brand-ink px-4 pb-4 sm:px-5 lg:hidden">
+                <div class="flex flex-col gap-2.5 pt-3">
+                    <a href="#presentation" class="sticker r-1 border-ink bg-brand-bg px-3 py-2 font-sans text-sm font-semibold uppercase tracking-wide text-brand-ink shadow-hard-sm transition-colors hover:bg-brand-yellow" onclick="closeMobileMenu()">Notre mission</a>
+                    <a href="#appel" class="sticker r1 border-ink bg-brand-bg px-3 py-2 font-sans text-sm font-semibold uppercase tracking-wide text-brand-ink shadow-hard-sm transition-colors hover:bg-brand-yellow" onclick="closeMobileMenu()">Bénévolat</a>
+                    <a href="#agenda" class="sticker r-1 border-ink bg-brand-bg px-3 py-2 font-sans text-sm font-semibold uppercase tracking-wide text-brand-ink shadow-hard-sm transition-colors hover:bg-brand-yellow" onclick="closeMobileMenu()">Agenda</a>
+                    <a href="#actualites" class="sticker r1 border-ink bg-brand-bg px-3 py-2 font-sans text-sm font-semibold uppercase tracking-wide text-brand-ink shadow-hard-sm transition-colors hover:bg-brand-yellow" onclick="closeMobileMenu()">Actualités</a>
+                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSeF3h7aNZMrtGkSG-aq8YLx6TShwcO0qOQeOnfsvfv-fM54qA/viewform" target="_blank" rel="noopener noreferrer" class="sticker r2 mt-1 inline-flex items-center justify-center gap-2 rounded-full border-ink-3 bg-brand-terracotta px-5 py-2.5 font-display text-sm uppercase tracking-wide text-white shadow-hard-sm" onclick="closeMobileMenu()">
+                        <img src="logoheader.png" alt="" aria-hidden="true" class="h-6 w-6 shrink-0 rounded-full bg-white object-contain p-0.5" />
+                        Rejoindre l'équipe <span aria-hidden="true">❤</span>
                     </a>
                 </div>
             </div>
         </nav>
 
-        <!-- Hero : occupe le reste du viewport sous la nav ; texte plus grand à gauche -->
-        <header class="relative z-10 -mt-4 flex min-h-0 w-full flex-1 flex-col pt-0 pb-0 md:-mt-6 md:pt-2 md:pb-0">
-            <div class="relative flex min-h-0 w-full flex-1 flex-col md:min-h-[calc(100dvh-5rem)] md:block">
-                <div
-                    class="
-                    relative z-[1] mt-28 border-t-0 bg-transparent px-4 py-10 text-center sm:px-5 sm:text-left
-                    md:absolute md:inset-y-0 md:left-0 md:flex md:w-[min(50%,580px)] md:max-w-none md:flex-col md:justify-center md:border-t-0 md:bg-transparent
-                    lg:w-[min(48%,620px)] lg:pl-7 xl:w-[min(46%,660px)] xl:pl-9
-                    md:mt-0 md:py-12 md:pl-6 md:pr-5 lg:py-16 lg:pl-8 lg:pr-6
-                ">
-                    <div class="mx-auto w-full max-w-lg space-y-4 sm:space-y-5 md:mx-0 md:max-w-[28rem] lg:max-w-[30rem] xl:max-w-[34rem]">
-                        <img
-                        src="logo.png"
-                        alt="Santé en Commun — la communauté du soin, Mulhouse"
-                        class="mx-auto block h-28 w-auto max-w-full object-contain object-center sm:h-32 md:mx-0 md:h-40 md:max-h-[10rem] md:max-w-none md:object-left lg:h-44 lg:max-h-[11rem] xl:h-48 xl:max-h-[12rem]"
-                        decoding="async"
-                        fetchpriority="high"
-                    />
-                        <p class="text-xs font-semibold uppercase tracking-[0.2em] text-brand-rose sm:text-sm">Mulhouse · santé communautaire</p>
-                        <h1 class="font-display text-4xl font-extrabold tracking-tight text-slate-800 sm:text-5xl md:text-5xl md:leading-[1.02] lg:text-6xl xl:text-7xl">
+        <!-- Hero : feuille de papier déchirée scotchée + photo découpée façon magazine -->
+        <header class="relative z-10 flex min-h-0 w-full flex-1 flex-col justify-center pt-24 pb-10 md:pt-24 lg:pt-20">
+            <div class="mx-auto grid w-full max-w-7xl grid-cols-1 items-center gap-12 px-4 sm:px-6 md:grid-cols-2 md:gap-10 lg:gap-16">
+
+                <!-- Bloc texte : grande feuille déchirée scotchée -->
+                <div class="relative order-2 md:order-1">
+                    <!-- Trace de tasse de café -->
+                    <span class="coffee-ring tilt r2 pointer-events-none absolute -right-2 -top-8 z-0 hidden h-24 w-24 md:block" aria-hidden="true"></span>
+                    <!-- Éclaboussure d'encre -->
+                    <span class="ink-splat tilt r-3 pointer-events-none absolute -left-6 bottom-8 z-0 hidden h-16 w-20 lg:block" aria-hidden="true"></span>
+
+                    <div class="tilt r-1 relative z-[1] mx-auto w-full max-w-lg space-y-4 bg-brand-bg/85 p-7 text-center shadow-hard torn sm:space-y-5 sm:p-9 sm:text-left md:mx-0">
+                        <span class="tape-piece tilt r3 left-8 -top-4" aria-hidden="true"></span>
+                        <span class="tape-piece tilt r-2 right-10 -bottom-4 hidden sm:block" aria-hidden="true"></span>
+                        
+                        <h1 class="font-display text-5xl leading-[0.95] text-brand-ink sm:text-6xl lg:text-7xl xl:text-8xl">
                             SANTÉ EN COMMUN
                         </h1>
                         
-                        <h2 class="font-display text-2xl font-bold leading-snug text-slate-800 sm:text-3xl md:text-3xl lg:text-4xl xl:text-[2.35rem] xl:leading-tight">
-                            Parce que la santé est un bien commun
+                        <h2 class="font-display text-3xl leading-[0.95] text-brand-ink sm:text-4xl lg:text-5xl">
+                            Parce que la santé est un <span class="highlight-yellow">bien commun</span>
                         </h2>
-                        <p class="mx-auto max-w-xl text-base leading-relaxed text-slate-600 sm:mx-0 md:text-lg lg:text-xl">
+                        <p class="mx-auto max-w-xl text-base leading-relaxed text-brand-ink/80 sm:mx-0 md:text-lg">
                             Rejoignez une dynamique d'entraide, d’écoute et de soin au cœur des quartiers de Mulhouse.
                         </p>
                     </div>
                 </div>
-                <img
-                    src="coteback.png"
-                    alt="Illustration d'un Café Santé avec habitants et soignantes à Mulhouse"
-                    class="pointer-events-none hidden mx-4 mb-4 h-[300px] w-[calc(100%-2rem)] rounded-3xl border-4 border-white object-cover object-[62%_55%] align-middle shadow-[0_24px_42px_-30px_rgba(146,180,167,0.65)] sm:h-[340px] md:absolute md:inset-0 md:mx-0 md:mb-0 md:block md:h-full md:w-full md:rounded-none md:border-0 md:object-right md:object-cover md:shadow-none"
-                    decoding="async"
-                    fetchpriority="high"
-                />
-                <!-- Illustration mobile uniquement : au-dessus de la flèche -->
-                <img
-                    src="tranquille.png"
-                    alt="Illustration conviviale : échanges autour d'une table, esprit Café Santé — Santé en Commun Mulhouse"
-                    class="mx-auto mb-2 mt-6 block h-auto w-[calc(100%-2rem)] max-w-lg rounded-2xl border-4 border-white object-cover shadow-[0_20px_40px_-28px_rgba(146,180,167,0.55)] sm:max-w-xl sm:rounded-3xl md:hidden"
-                    loading="lazy"
-                    decoding="async"
-                />
-                <!-- Flèche centrée sur toute la largeur du hero (milieu horizontal de l’écran) -->
-                <div class="pointer-events-none relative z-[2] mt-3 mb-2 flex justify-center md:absolute md:bottom-8 md:left-1/2 md:mt-0 md:mb-0 md:-translate-x-1/2">
-                    <a
-                        href="#presentation"
-                        class="pointer-events-auto inline-flex h-14 w-14 items-center justify-center rounded-full border border-brand-green/35 bg-white text-brand-green shadow-[0_10px_22px_-16px_rgba(146,180,167,1)] transition hover:bg-brand-green hover:text-white hover:shadow-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-green md:h-12 md:w-12"
-                        aria-label="Voir la suite de la page — présentation"
-                    >
-                        <i class="fa-solid fa-arrow-down text-lg md:text-base" aria-hidden="true"></i>
-                    </a>
+
+                <!-- Photo candide d'un vrai Café Santé, découpée façon magazine -->
+                <div class="order-1 flex justify-center md:order-2 md:justify-end md:mt-12 lg:mt-16">
+                    <div class="relative mx-auto aspect-[4/5] w-full max-w-md lg:max-w-lg">
+                        <span class="tape-piece tilt r-3 left-1/2 -top-4 z-30 -translate-x-1/2" aria-hidden="true"></span>
+                        <span class="tape-piece tilt r2 right-8 -bottom-4 z-30 hidden md:block" aria-hidden="true"></span>
+                        <!-- Repère visuel tant que la photo n'est pas fournie -->
+                        <div class="tilt r2 absolute inset-0 flex flex-col items-center justify-center gap-3 border-ink-3 bg-brand-kraft/40 text-brand-ink/55 torn">
+                            <i class="fa-solid fa-mug-hot text-6xl" aria-hidden="true"></i>
+                            <span class="font-hand text-xl">Photo Café Santé à venir</span>
+                        </div>
+                        <img
+                            src="enhaut.png"
+                            alt="Café Santé au Local Citoyen Fonderie à Mulhouse : échanges et prévention santé entre femmes"
+                            class="tilt r2 absolute inset-0 block h-full w-full border-ink-3 object-cover shadow-hard torn"
+                            loading="lazy"
+                            decoding="async"
+                            onerror="this.style.display='none'"
+                        />
+                    </div>
                 </div>
+            </div>
+
+            <!-- Flèche de défilement : tampon encreur pressé main -->
+            <div class="relative z-[2] mt-10 mb-2 flex justify-center md:mt-12">
+                <a
+                    href="#presentation"
+                    class="sticker r-3 stamp inline-flex h-16 w-16 items-center justify-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-terracotta"
+                    aria-label="Voir la suite de la page — présentation"
+                >
+                    <i class="fa-solid fa-arrow-down text-xl" aria-hidden="true"></i>
+                </a>
             </div>
         </header>
     </div>
 
     <!-- Section Présentation -->
-    <section id="presentation" class="relative z-10 mt-0 border-b border-brand-green/15 py-24 px-4 sm:mt-0">
-        <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+    <section id="presentation" class="relative z-10 mt-0 border-b-2 border-dashed border-brand-ink py-24 px-4 sm:mt-0">
+        <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center lg:items-stretch">
             
-            <!-- Colonne visuel : cadre = taille de l’image (w-fit) ; décor derrière -->
-            <div class="relative mx-auto w-fit max-w-full lg:mx-0">
-                <div class="pointer-events-none absolute -left-4 -top-4 z-[1] h-24 w-24 rounded-full bg-brand-rose/25 sm:-left-5 sm:-top-5"></div>
-                <div class="pointer-events-none absolute -bottom-2 -right-5 z-[1] h-32 w-32 rounded-full bg-brand-green/25 sm:-right-6"></div>
-                <div class="pointer-events-none absolute left-1/2 top-1/2 z-0 aspect-square w-[88%] max-w-[380px] -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-dashed border-slate-300/70 animate-[spin_40s_linear_infinite]"></div>
+            <!-- Colonne visuel : photo collée façon polaroïd -->
+            <div class="relative mx-auto w-fit max-w-full lg:mx-0 lg:w-full">
+                <div class="scrap tilt r3 -left-5 -top-5 z-[1] h-24 w-24 bg-brand-kraft torn-2"></div>
+                <div class="scrap tilt r-2 -bottom-4 -right-6 z-[1] h-32 w-32 bg-brand-sage torn"></div>
+                <span class="tape-piece tilt r-3 left-6 -top-4 z-20" aria-hidden="true"></span>
+                <span class="tape-piece tilt r2 right-6 -bottom-4 z-20" aria-hidden="true"></span>
                 <img
-                    src="quisommesnous.png"
+                    src="social.jpeg"
                     alt="Écoute et échange entre habitants — Santé en Commun"
-                    class="relative z-10 block h-auto w-auto max-w-full rounded-[2rem] border-8 border-white shadow-[0_28px_60px_-40px_rgba(146,180,167,0.55)] sm:max-w-xl"
+                    class="tilt r-1 relative z-10 block h-auto w-auto max-w-full border-ink-3 bg-white p-2 shadow-hard torn-soft sm:max-w-xl lg:h-full lg:max-w-none lg:w-full lg:object-cover"
                     loading="lazy"
                     decoding="async"
                 />
@@ -203,87 +326,278 @@
 
             <!-- Colonne Texte -->
             <div class="flex flex-col justify-center">
-                <span class="text-brand-rose font-display font-bold tracking-wider uppercase mb-2">Notre démarche</span>
-                <h2 class="text-4xl md:text-5xl font-display font-extrabold text-slate-800 mb-6 leading-tight">
-                    Réinventer le soin, <br><span class="text-brand-green">recréer du lien.</span>
+                <span class="font-marker text-brand-terracotta text-lg mb-2">Notre démarche</span>
+                <h2 class="text-5xl md:text-6xl font-display text-brand-ink mb-6 leading-[0.95]">
+                    Réinventer le soin, <br><span class="marker-underline">recréer du lien.</span>
                 </h2>
-                <p class="text-lg text-slate-600 leading-relaxed mb-6">
+                <p class="text-lg text-brand-ink/85 leading-relaxed mb-6">
                     Créée en 2024, Santé en Commun est née d'un constat partagé : face aux déserts médicaux et aux difficultés administratives, le parcours de santé s'apparente parfois à un véritable parcours du combattant.
                 </p>
-                <p class="text-lg text-slate-600 leading-relaxed mb-8">
-                    Notre mission ? Promouvoir la santé communautaire et <strong>valoriser les savoirs expérientiels</strong>. Nous organisons des Cafés Santé pour accompagner les habitants dans l'accès aux droits, loin de la pression du cabinet médical classique.
+                <p class="text-lg text-brand-ink/85 leading-relaxed mb-8">
+                    Notre mission ? Promouvoir la santé communautaire et <strong class="highlight-yellow font-semibold">valoriser les savoirs expérientiels</strong>. Nous organisons des Cafés Santé pour accompagner les habitants dans l'accès aux droits, loin de la pression du cabinet médical classique.
                 </p>
                 
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div class="bg-brand-greenLight/75 p-4 rounded-3xl flex items-center gap-4 shadow-[0_20px_40px_-28px_rgba(146,180,167,1)] border border-brand-green/20">
-                        <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-[0_14px_28px_-20px_rgba(146,180,167,1)] text-brand-green text-xl"><i class="fa-solid fa-mug-hot"></i></div>
-                        <span class="font-bold text-slate-700">Cafés Santé<br><span class="text-sm font-normal text-slate-500">Convivialité & Prévention</span></span>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                    <div class="tilt r-1 bg-brand-sage/30 p-4 flex items-center gap-4 border-ink shadow-hard-sm torn-soft">
+                        <div class="w-12 h-12 bg-brand-bg flex items-center justify-center border-ink text-brand-terracotta text-xl shrink-0 torn-2"><i class="fa-solid fa-mug-hot"></i></div>
+                        <span class="font-bold text-brand-ink">Cafés Santé<br><span class="text-sm font-normal text-brand-ink/70">Convivialité & Prévention</span></span>
                     </div>
-                    <div class="bg-brand-roseLight/75 p-4 rounded-3xl flex items-center gap-4 shadow-[0_20px_40px_-28px_rgba(198,133,133,1)] border border-brand-rose/20">
-                        <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-[0_14px_28px_-20px_rgba(198,133,133,1)] text-brand-rose text-xl"><i class="fa-solid fa-handshake-angle"></i></div>
-                        <span class="font-bold text-slate-700">100% Mixte<br><span class="text-sm font-normal text-slate-500">Soignants & Habitants</span></span>
+                    <div class="tilt r1 bg-brand-kraft/35 p-4 flex items-center gap-4 border-ink shadow-hard-sm torn-soft">
+                        <div class="w-12 h-12 bg-brand-bg flex items-center justify-center border-ink text-brand-terracotta text-xl shrink-0 torn-2"><i class="fa-solid fa-handshake-angle"></i></div>
+                        <span class="font-bold text-brand-ink">100% Mixte<br><span class="text-sm font-normal text-brand-ink/70">Soignants & Habitants</span></span>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Section Appel à bénévoles : fond benevoles.png + carte verre à gauche -->
-    <section
-        id="appel"
-        class="appel-bg relative z-10 flex w-full min-h-[70vh] items-center bg-cover bg-center bg-no-repeat py-12 px-4 md:px-12"
-    >
-        <div class="relative mx-auto flex w-full max-w-7xl translate-x-[9px] justify-start md:-ml-2 lg:-ml-4">
-            <div class="w-full max-w-2xl rounded-[2rem] border-4 border-white bg-white/50 p-8 shadow-2xl backdrop-blur-md md:p-12">
-                <h3 class="mb-8 flex items-center gap-4 font-display text-3xl font-bold uppercase tracking-wide text-slate-800 md:text-4xl">
-                    <i class="fa-solid fa-bullhorn text-brand-rose"></i> Appel à bénévoles
+    <!-- Section Équipe : cartes membres façon collage scrapbook -->
+    <section id="equipe" class="relative z-10 border-b-2 border-dashed border-brand-ink py-24 px-4">
+        <!-- Scraps décoratifs -->
+        <div class="pointer-events-none absolute inset-0 -z-10 overflow-hidden" aria-hidden="true">
+            <div class="scrap tilt r3 right-[-4%] top-10 h-40 w-40 bg-brand-yellow torn-2"></div>
+            <div class="scrap tilt r-2 left-[-3%] bottom-12 h-36 w-52 bg-brand-sage torn"></div>
+        </div>
+
+        <div class="max-w-6xl mx-auto">
+            <!-- En-tête de section -->
+            <div class="text-center mb-8 flex flex-col items-center">
+                <span class="font-marker text-brand-terracotta text-lg mb-2">Les visages du soin</span>
+                <h2 class="text-5xl md:text-6xl leading-[0.95] text-brand-ink">
+                    <span class="font-display">Notre</span>
+                    <span class="font-marker highlight-yellow text-brand-terracotta">ÉQUIPE</span>
+                </h2>
+                <p class="mt-4 text-lg text-brand-ink/85 max-w-2xl">Des professionnelles engagées, à votre écoute autour d'un café.</p>
+            </div>
+
+            <!-- Indication de défilement -->
+            <div class="mb-2 flex items-center justify-center gap-2 md:justify-end md:pr-2">
+                <span class="font-hand text-xl text-brand-terracotta sm:text-2xl">Faites glisser</span>
+                <i class="fa-solid fa-arrow-right-long animate-pulse text-brand-terracotta" aria-hidden="true"></i>
+            </div>
+        </div>
+
+        <!-- Carrousel à défilement horizontal (scroll-snap, CSS pur) -->
+        <div class="no-scrollbar mx-auto flex max-w-7xl snap-x snap-mandatory gap-6 overflow-x-auto scroll-px-4 px-4 pt-4 pb-12">
+
+            <!-- 1 · Camille Pousse · Psychologue · sauge -->
+            <article class="tilt r-1 card-hover relative flex w-4/5 shrink-0 snap-center flex-col border-ink-3 bg-brand-bg p-5 shadow-hard torn-soft sm:w-72">
+                <div class="relative mb-5">
+                    <span class="tape-piece tilt r2 left-1/2 -top-3 z-30 -translate-x-1/2" aria-hidden="true"></span>
+                    <div class="tilt r1 bg-brand-sage p-2.5 torn">
+                        <div class="relative flex aspect-square w-full items-center justify-center overflow-hidden bg-brand-sage torn">
+                            <i class="fa-solid fa-comment-dots text-6xl text-brand-ink/30" aria-hidden="true"></i>
+                            <img src="membre/camille-pousse.jpeg" alt="Portrait de Camille Pousse, psychologue" class="absolute inset-0 h-full w-full object-cover" loading="lazy" decoding="async" onerror="this.style.display='none'">
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <h3 class="font-sans text-2xl font-bold leading-tight text-brand-ink">Camille Pousse</h3>
+                    <p class="font-marker mt-1 text-xl text-brand-terracotta">Psychologue</p>
+                </div>
+            </article>
+
+            <!-- 2 · Sarra El Idrissi · jaune -->
+            <article class="tilt r1 card-hover relative flex w-4/5 shrink-0 snap-center flex-col border-ink-3 bg-brand-bg p-5 shadow-hard torn-soft sm:w-72">
+                <div class="relative mb-5">
+                    <span class="tape-piece tilt r-2 left-1/2 -top-3 z-30 -translate-x-1/2" aria-hidden="true"></span>
+                    <div class="tilt r-1 bg-brand-yellow p-2.5 torn-2">
+                        <div class="relative flex aspect-square w-full items-center justify-center overflow-hidden bg-brand-yellow torn-2">
+                            <i class="fa-solid fa-user text-6xl text-brand-ink/30" aria-hidden="true"></i>
+                            <img src="membre/sarra-el-idrissi.jpeg" alt="Portrait de Sarra El Idrissi" class="absolute inset-0 h-full w-full object-cover" loading="lazy" decoding="async" onerror="this.style.display='none'">
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <h3 class="font-sans text-2xl font-bold leading-tight text-brand-ink">Sarra El Idrissi</h3>
+                    <p class="font-marker mt-1 text-xl text-brand-terracotta">Membre de l'équipe</p>
+                </div>
+            </article>
+
+            <!-- 3 · Julie Lambrech · terracotta -->
+            <article class="tilt r-2 card-hover relative flex w-4/5 shrink-0 snap-center flex-col border-ink-3 bg-brand-bg p-5 shadow-hard torn-soft sm:w-72">
+                <div class="relative mb-5">
+                    <span class="tape-piece tilt r2 left-1/2 -top-3 z-30 -translate-x-1/2" aria-hidden="true"></span>
+                    <div class="tilt r1 bg-brand-terracotta p-2.5 torn">
+                        <div class="relative flex aspect-square w-full items-center justify-center overflow-hidden bg-brand-terracotta torn">
+                            <i class="fa-solid fa-user text-6xl text-white/40" aria-hidden="true"></i>
+                            <img src="membre/julie-lambrech.jpeg" alt="Portrait de Julie Lambrech" class="absolute inset-0 h-full w-full object-cover" loading="lazy" decoding="async" onerror="this.style.display='none'">
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <h3 class="font-sans text-2xl font-bold leading-tight text-brand-ink">Julie Lambrech</h3>
+                    <p class="font-marker mt-1 text-xl text-brand-terracotta">Membre de l'équipe</p>
+                </div>
+            </article>
+
+            <!-- 4 · Sakina Zariouh · Stagiaire · kraft -->
+            <article class="tilt r1 card-hover relative flex w-4/5 shrink-0 snap-center flex-col border-ink-3 bg-brand-bg p-5 shadow-hard torn-soft sm:w-72">
+                <div class="relative mb-5">
+                    <span class="tape-piece tilt r-2 left-1/2 -top-3 z-30 -translate-x-1/2" aria-hidden="true"></span>
+                    <div class="tilt r-1 bg-brand-kraft p-2.5 torn-2">
+                        <div class="relative flex aspect-square w-full items-center justify-center overflow-hidden bg-brand-kraft torn-2">
+                            <i class="fa-solid fa-graduation-cap text-6xl text-brand-ink/30" aria-hidden="true"></i>
+                            <img src="photo.jpg" alt="Portrait de Sakina Zariouh, stagiaire" class="absolute inset-0 h-full w-full object-cover" loading="lazy" decoding="async" onerror="this.style.display='none'">
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <h3 class="font-sans text-2xl font-bold leading-tight text-brand-ink">Sakina Zariouh</h3>
+                    <p class="font-marker mt-1 text-xl text-brand-terracotta">Stagiaire</p>
+                </div>
+            </article>
+
+            <!-- 5 · Farah Bessier · Sage-femme · sauge -->
+            <article class="tilt r-1 card-hover relative flex w-4/5 shrink-0 snap-center flex-col border-ink-3 bg-brand-bg p-5 shadow-hard torn-soft sm:w-72">
+                <div class="relative mb-5">
+                    <span class="tape-piece tilt r2 left-1/2 -top-3 z-30 -translate-x-1/2" aria-hidden="true"></span>
+                    <div class="tilt r1 bg-brand-sage p-2.5 torn">
+                        <div class="relative flex aspect-square w-full items-center justify-center overflow-hidden bg-brand-sage torn">
+                            <i class="fa-solid fa-baby text-6xl text-brand-ink/30" aria-hidden="true"></i>
+                            <img src="membre/farah-bessier.jpeg" alt="Portrait de Farah Bessier, sage-femme" class="absolute inset-0 h-full w-full object-cover" loading="lazy" decoding="async" onerror="this.style.display='none'">
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <h3 class="font-sans text-2xl font-bold leading-tight text-brand-ink">Farah Bessier</h3>
+                    <p class="font-marker mt-1 text-xl text-brand-terracotta">Sage-femme</p>
+                </div>
+            </article>
+
+            <!-- 6 · Marion Rabier · jaune -->
+            <article class="tilt r2 card-hover relative flex w-4/5 shrink-0 snap-center flex-col border-ink-3 bg-brand-bg p-5 shadow-hard torn-soft sm:w-72">
+                <div class="relative mb-5">
+                    <span class="tape-piece tilt r-2 left-1/2 -top-3 z-30 -translate-x-1/2" aria-hidden="true"></span>
+                    <div class="tilt r-1 bg-brand-yellow p-2.5 torn-2">
+                        <div class="relative flex aspect-square w-full items-center justify-center overflow-hidden bg-brand-yellow torn-2">
+                            <i class="fa-solid fa-user text-6xl text-brand-ink/30" aria-hidden="true"></i>
+                            <img src="membre/marion-rabier.png" alt="Portrait de Marion Rabier" class="absolute inset-0 h-full w-full object-cover" loading="lazy" decoding="async" onerror="this.style.display='none'">
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <h3 class="font-sans text-2xl font-bold leading-tight text-brand-ink">Marion Rabier</h3>
+                    <p class="font-marker mt-1 text-xl text-brand-terracotta">Membre de l'équipe</p>
+                </div>
+            </article>
+
+            <!-- 7 · Garance Clément · terracotta -->
+            <article class="tilt r-1 card-hover relative flex w-4/5 shrink-0 snap-center flex-col border-ink-3 bg-brand-bg p-5 shadow-hard torn-soft sm:w-72">
+                <div class="relative mb-5">
+                    <span class="tape-piece tilt r2 left-1/2 -top-3 z-30 -translate-x-1/2" aria-hidden="true"></span>
+                    <div class="tilt r1 bg-brand-terracotta p-2.5 torn">
+                        <div class="relative flex aspect-square w-full items-center justify-center overflow-hidden bg-brand-terracotta torn">
+                            <i class="fa-solid fa-user text-6xl text-white/40" aria-hidden="true"></i>
+                            <img src="membre/garance-clement.jpeg" alt="Portrait de Garance Clément" class="absolute inset-0 h-full w-full object-cover" loading="lazy" decoding="async" onerror="this.style.display='none'">
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <h3 class="font-sans text-2xl font-bold leading-tight text-brand-ink">Garance Clément</h3>
+                    <p class="font-marker mt-1 text-xl text-brand-terracotta">Membre de l'équipe</p>
+                </div>
+            </article>
+
+            <!-- 8 · Camille Lancevelée · kraft -->
+            <article class="tilt r1 card-hover relative flex w-4/5 shrink-0 snap-center flex-col border-ink-3 bg-brand-bg p-5 shadow-hard torn-soft sm:w-72">
+                <div class="relative mb-5">
+                    <span class="tape-piece tilt r-2 left-1/2 -top-3 z-30 -translate-x-1/2" aria-hidden="true"></span>
+                    <div class="tilt r-1 bg-brand-kraft p-2.5 torn-2">
+                        <div class="relative flex aspect-square w-full items-center justify-center overflow-hidden bg-brand-kraft torn-2">
+                            <i class="fa-solid fa-user text-6xl text-brand-ink/30" aria-hidden="true"></i>
+                            <img src="membre/camille-lancevelee.jpeg" alt="Portrait de Camille Lancevelée" class="absolute inset-0 h-full w-full object-cover" loading="lazy" decoding="async" onerror="this.style.display='none'">
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <h3 class="font-sans text-2xl font-bold leading-tight text-brand-ink">Camille Lancevelée</h3>
+                    <p class="font-marker mt-1 text-xl text-brand-terracotta">Membre de l'équipe</p>
+                </div>
+            </article>
+
+        </div>
+    </section>
+
+    <!-- Section Appel à bénévoles : collage scrapbook deux colonnes -->
+    <section id="appel" class="relative z-10 py-24 px-4">
+        <div class="mx-auto grid w-full max-w-6xl grid-cols-1 items-center gap-14 lg:grid-cols-2 lg:gap-16">
+
+            <!-- Colonne gauche : grande feuille de papier scotchée -->
+            <div class="tilt r-1 relative border-ink-3 bg-brand-bg p-8 shadow-hard-lg torn-soft md:p-10">
+                <span class="tape-piece tilt r2 left-10 -top-5" aria-hidden="true"></span>
+                <h3 class="mb-8 flex items-center gap-4 font-display text-4xl uppercase tracking-wide text-brand-ink md:text-5xl">
+                    <i class="fa-solid fa-bullhorn text-brand-terracotta"></i> <span class="highlight-yellow">Appel à bénévoles</span>
                 </h3>
 
-                <ul class="space-y-6 text-lg text-slate-700">
+                <ul class="space-y-6 text-lg text-brand-ink/85">
                     <li class="flex items-start gap-4">
-                        <i class="fa-solid fa-check mt-1 shrink-0 text-brand-green"></i>
+                        <i class="fa-solid fa-check mt-1 shrink-0 text-brand-terracotta"></i>
                         <p>Nous sommes un groupe mixte de chercheurs, de professionnels de santé et d'usagers, prêts à animer les quartiers de Mulhouse.</p>
                     </li>
                     <li class="flex items-start gap-4">
-                        <i class="fa-solid fa-check mt-1 shrink-0 text-brand-green"></i>
+                        <i class="fa-solid fa-check mt-1 shrink-0 text-brand-terracotta"></i>
                         <div class="w-full min-w-0">
                             <p class="mb-4">Si vous souhaitez contribuer à ces espaces d'information, d'entraide et de prévention, nous recherchons :</p>
-                            <div class="grid grid-cols-1 gap-2.5 sm:grid-cols-2 sm:gap-3">
-                                <div class="flex items-center gap-3 rounded-xl bg-brand-roseLight/90 px-4 py-3 font-semibold text-brand-text shadow-sm"><i class="fa-solid fa-handshake-angle shrink-0 text-brand-rose"></i> Travailleur.e social.e</div>
-                                <div class="flex items-center gap-3 rounded-xl bg-brand-greenLight/90 px-4 py-3 font-semibold text-brand-text shadow-sm"><i class="fa-solid fa-user-nurse shrink-0 text-brand-green"></i> Infirmier.ère</div>
-                                <div class="flex items-center gap-3 rounded-xl bg-brand-roseLight/90 px-4 py-3 font-semibold text-brand-text shadow-sm"><i class="fa-solid fa-baby shrink-0 text-brand-rose"></i> Sage-femme</div>
-                                <div class="flex items-center gap-3 rounded-xl bg-brand-greenLight/90 px-4 py-3 font-semibold text-brand-text shadow-sm"><i class="fa-solid fa-stethoscope shrink-0 text-brand-green"></i> Médecin</div>
-                                <div class="flex items-center gap-3 rounded-xl bg-brand-roseLight/90 px-4 py-3 font-semibold text-brand-text shadow-sm"><i class="fa-solid fa-comments shrink-0 text-brand-rose"></i> Usager.ère (Actifs ou retraités)</div>
-                                <div class="flex items-center gap-3 rounded-xl bg-brand-greenLight/90 px-4 py-3 font-semibold text-brand-text shadow-sm"><i class="fa-solid fa-circle-plus shrink-0 text-brand-green"></i> Autre</div>
+                            <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                                <div class="sticker r-1 flex items-center gap-3 border-ink bg-brand-kraft/35 px-4 py-3 font-semibold text-brand-ink shadow-hard-sm"><i class="fa-solid fa-handshake-angle shrink-0 text-brand-terracotta"></i> Travailleur.e social.e</div>
+                                <div class="sticker r1 flex items-center gap-3 border-ink bg-brand-sage/30 px-4 py-3 font-semibold text-brand-ink shadow-hard-sm"><i class="fa-solid fa-user-nurse shrink-0 text-brand-terracotta"></i> Infirmier.ère</div>
+                                <div class="sticker r1 flex items-center gap-3 border-ink bg-brand-sage/30 px-4 py-3 font-semibold text-brand-ink shadow-hard-sm"><i class="fa-solid fa-baby shrink-0 text-brand-terracotta"></i> Sage-femme</div>
+                                <div class="sticker r-1 flex items-center gap-3 border-ink bg-brand-kraft/35 px-4 py-3 font-semibold text-brand-ink shadow-hard-sm"><i class="fa-solid fa-stethoscope shrink-0 text-brand-terracotta"></i> Médecin</div>
+                                <div class="sticker r-1 flex items-center gap-3 border-ink bg-brand-kraft/35 px-4 py-3 font-semibold text-brand-ink shadow-hard-sm"><i class="fa-solid fa-comments shrink-0 text-brand-terracotta"></i> Usager.ère (Actifs ou retraités)</div>
+                                <div class="sticker r1 flex items-center gap-3 border-ink bg-brand-sage/30 px-4 py-3 font-semibold text-brand-ink shadow-hard-sm"><i class="fa-solid fa-circle-plus shrink-0 text-brand-terracotta"></i> Autre</div>
                             </div>
                         </div>
                     </li>
                 </ul>
 
-                <p class="mb-8 mt-8 text-center text-lg font-medium italic text-slate-700">
+                <p class="mb-8 mt-8 text-center font-hand text-2xl text-brand-terracotta sm:text-3xl">
                     "Votre engagement, même ponctuel, contribue à faire vivre une communauté du soin."
                 </p>
 
-                <div class="flex flex-col items-stretch justify-between gap-5 rounded-2xl border border-white/60 bg-white/50 p-5 backdrop-blur-sm sm:flex-row sm:items-center">
-                    <div class="font-display text-lg font-bold text-slate-800 sm:text-xl">
-                        <span>Prêt.e à nous rejoindre ? <br><span class="font-sans text-xs font-semibold uppercase tracking-widest text-brand-rose sm:text-sm">Remplissez le formulaire</span></span>
+                <!-- Call to action : sans conteneur encadré, le texte respire -->
+                <div class="flex flex-col items-start gap-6 sm:flex-row sm:items-center sm:justify-between">
+                    <div class="font-display text-xl text-brand-ink sm:text-2xl">
+                        <span>Prêt.e à nous rejoindre ? <br><span class="font-hand text-lg normal-case tracking-normal text-brand-terracotta sm:text-xl">Remplissez le formulaire</span></span>
                     </div>
-                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSeF3h7aNZMrtGkSG-aq8YLx6TShwcO0qOQeOnfsvfv-fM54qA/viewform" target="_blank" rel="noopener noreferrer" class="inline-flex shrink-0 items-center justify-center gap-2 rounded-full bg-brand-rose px-6 py-3.5 font-display text-sm font-semibold text-white shadow-md transition hover:bg-[#b97373] sm:px-8 sm:py-4 sm:text-base">
+                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSeF3h7aNZMrtGkSG-aq8YLx6TShwcO0qOQeOnfsvfv-fM54qA/viewform" target="_blank" rel="noopener noreferrer" class="sticker r2 inline-flex shrink-0 items-center justify-center gap-2 border-ink-3 bg-brand-terracotta px-8 py-4 font-display text-lg uppercase tracking-wide text-white shadow-hard hover:shadow-hard-lg sm:text-xl">
                         C'est parti ! <i class="fa-solid fa-arrow-right"></i>
                     </a>
                 </div>
             </div>
+
+            <!-- Colonne droite : photo de groupe façon collage brut -->
+            <div class="flex justify-center lg:justify-end">
+                <div class="relative mx-auto aspect-[4/5] w-full max-w-md">
+                    <span class="tape-piece tilt r-3 left-1/2 -top-4 z-30 -translate-x-1/2" aria-hidden="true"></span>
+                    <!-- Repère visuel si la photo n'est pas encore disponible -->
+                    <div class="tilt r2 absolute inset-0 flex flex-col items-center justify-center gap-3 border-ink-3 bg-brand-sage/40 text-brand-ink/55 torn">
+                        <i class="fa-solid fa-users text-6xl" aria-hidden="true"></i>
+                        <span class="font-hand text-xl">Photo de groupe à venir</span>
+                    </div>
+                    <img
+                        src="photodegroupe.png"
+                        alt="Photo de groupe des bénévoles de Santé en Commun à Mulhouse"
+                        class="tilt r2 absolute inset-0 block h-full w-full border-ink-3 object-cover shadow-hard torn"
+                        loading="lazy"
+                        decoding="async"
+                        onerror="this.style.display='none'"
+                    />
+                    <span class="pointer-events-none absolute -bottom-5 right-2 z-30 tilt r-2 font-hand text-2xl text-brand-terracotta">Toute l'équipe !</span>
+                </div>
+            </div>
+
         </div>
     </section>
     </main>
 
     <!-- Agenda Dynamique -->
-    <section id="agenda" class="py-24 px-4">
+    <section id="agenda" class="relative z-10 border-y-[3px] border-dashed border-brand-ink bg-brand-sage py-24 px-4">
         <div class="max-w-6xl mx-auto">
             <div class="text-center mb-16 flex flex-col items-center">
-                <span class="text-brand-green font-display font-bold tracking-wider uppercase mb-2">Rencontrons-nous</span>
-                <h2 class="font-display text-4xl md:text-5xl font-extrabold text-slate-800 mb-4">L'Agenda de l'Asso</h2>
-                <p class="text-lg text-slate-600">Rejoignez-nous lors de nos prochains événements à Mulhouse.</p>
+                <span class="font-marker text-brand-bg text-lg mb-2">Rencontrons-nous</span>
+                <h2 class="font-display text-5xl md:text-6xl text-brand-ink mb-4 leading-[0.95]">L'<span class="highlight-yellow">Agenda</span> de l'Asso</h2>
+                <p class="text-lg text-brand-ink/85">Rejoignez-nous lors de nos prochains événements à Mulhouse.</p>
             </div>
 
             <!-- Conteneur des cartes Agenda -->
@@ -293,41 +607,82 @@
         </div>
     </section>
 
-    <!-- Actualités Dynamiques -->
-    <section id="actualites" class="py-24 px-4 relative z-10 border-t border-brand-rose/15">
+    <!-- Sur le terrain : retour en images sur nos permanences -->
+    <section id="actualites" class="py-24 px-4 relative z-10">
         <div class="max-w-6xl mx-auto">
             <div class="flex flex-col md:flex-row justify-between items-center md:items-end mb-12 gap-4">
                 <div class="text-center md:text-left">
-                    <span class="text-brand-rose font-display font-bold tracking-wider uppercase mb-2 block">Le Blog</span>
-                    <h2 class="font-display text-4xl md:text-5xl font-extrabold text-slate-800 mb-2">Les dernières actus</h2>
+                    <span class="font-marker text-brand-terracotta text-lg mb-2 block">Sur le terrain</span>
+                    <h2 class="font-display text-5xl md:text-6xl text-brand-ink mb-2 leading-[0.95]">NOS DERNIÈRES <span class="highlight-yellow">PERMANENCES</span></h2>
                 </div>
             </div>
 
-            <!-- Conteneur des articles -->
-            <div id="actus-container" class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <!-- Généré par JS -->
+            <!-- Cartes « carnet de bord » (HTML en dur) -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+
+                <!-- Carte 1 -->
+                <article class="tilt r-1 card-hover relative flex flex-col border-ink-3 bg-brand-bg p-3 shadow-hard torn-soft">
+                    <span class="tape-piece tilt r2 left-1/2 -top-4 z-30 -translate-x-1/2" aria-hidden="true"></span>
+                    <div class="relative h-56 w-full overflow-hidden border-b-2 border-ink bg-brand-kraft/40 torn">
+                        <div class="absolute inset-0 flex items-center justify-center text-brand-ink/45"><i class="fa-solid fa-camera-retro text-5xl" aria-hidden="true"></i></div>
+                        <img src="permanace/fonderielocalcitoyen.jpeg" alt="Permanence santé au Local Citoyen Fonderie, Mulhouse" class="absolute inset-0 h-full w-full object-cover" loading="lazy" decoding="async" onerror="this.style.display='none'">
+                    </div>
+                    <div class="flex flex-col px-3 pb-2 pt-5">
+                        <span class="font-marker text-sm text-brand-terracotta mb-2">12 juin. 2026</span>
+                        <h3 class="font-display text-3xl leading-tight text-brand-ink mb-3">Local Citoyen Fonderie</h3>
+                        <p class="font-sans leading-relaxed text-brand-ink/80">Notre toute première permanence ! Un moment d'échange incroyable où la parole s'est libérée sans tabou.</p>
+                    </div>
+                </article>
+
+                <!-- Carte 2 -->
+                <article class="tilt r1 card-hover relative flex flex-col border-ink-3 bg-brand-bg p-3 shadow-hard torn-soft">
+                    <span class="tape-piece tilt r-2 left-1/2 -top-4 z-30 -translate-x-1/2" aria-hidden="true"></span>
+                    <div class="relative h-56 w-full overflow-hidden border-b-2 border-ink bg-brand-sage/35 torn">
+                        <div class="absolute inset-0 flex items-center justify-center text-brand-ink/45"><i class="fa-solid fa-camera-retro text-5xl" aria-hidden="true"></i></div>
+                        <img src="permanace/coteaux.jpeg" alt="Permanence santé au Quartier des Coteaux, Mulhouse" class="absolute inset-0 h-full w-full object-cover" loading="lazy" decoding="async" onerror="this.style.display='none'">
+                    </div>
+                    <div class="flex flex-col px-3 pb-2 pt-5">
+                        <span class="font-marker text-sm text-brand-terracotta mb-2">13 juin. 2026</span>
+                        <h3 class="font-display text-3xl leading-tight text-brand-ink mb-3">Quartier des Coteaux</h3>
+                        <p class="font-sans leading-relaxed text-brand-ink/80">Un magnifique accueil. Une après-midi riche en partages autour de la santé globale des femmes.</p>
+                    </div>
+                </article>
+
+                <!-- Carte 3 -->
+                <article class="tilt r-2 card-hover relative flex flex-col border-ink-3 bg-brand-bg p-3 shadow-hard torn-soft">
+                    <span class="tape-piece tilt r3 left-1/2 -top-4 z-30 -translate-x-1/2" aria-hidden="true"></span>
+                    <div class="relative h-56 w-full overflow-hidden border-b-2 border-ink bg-brand-yellow/40 torn">
+                        <div class="absolute inset-0 flex items-center justify-center text-brand-ink/45"><i class="fa-solid fa-camera-retro text-5xl" aria-hidden="true"></i></div>
+                        <img src="permanace/centrepapin.jpeg" alt="Permanence santé au Centre Socioculturel Papin, Mulhouse" class="absolute inset-0 h-full w-full object-cover" loading="lazy" decoding="async" onerror="this.style.display='none'">
+                    </div>
+                    <div class="flex flex-col px-3 pb-2 pt-5">
+                        <span class="font-marker text-sm text-brand-terracotta mb-2">19 juin. 2026</span>
+                        <h3 class="font-display text-3xl leading-tight text-brand-ink mb-3">Centre Socioculturel Papin</h3>
+                        <p class="font-sans leading-relaxed text-brand-ink/80">Une nouvelle étape au CSC Papin avec toujours la même énergie : écoute, bienveillance et sororité.</p>
+                    </div>
+                </article>
+
             </div>
         </div>
     </section>
 
-    <!-- Footer flottant : même style que le header -->
-    <footer class="relative z-20 mx-[10px] mb-[10px] rounded-xl border border-brand-green/20 bg-white/75 px-4 py-4 backdrop-blur-md md:rounded-2xl md:px-6">
-        <div class="mx-auto flex h-20 max-w-6xl items-center justify-between gap-4">
-            <div class="flex items-center gap-3">
+    <!-- Footer flottant : même style fait-main que le header -->
+    <footer class="relative z-20 mx-[10px] mb-[10px] border-ink-3 bg-brand-bg px-4 py-4 shadow-hard md:px-6">
+        <div class="mx-auto flex flex-col gap-4 max-w-6xl items-center justify-between py-2 sm:h-20 sm:flex-row sm:py-0">
+            <div class="flex items-center">
                 <img
-                    src="logo.png"
-                    alt="Logo Santé en Commun"
-                    class="h-11 w-auto max-h-12 object-contain sm:h-12 sm:max-h-14 md:h-14 md:max-h-[3.25rem]"
+                    src="logoheader.png"
+                    alt="Santé en Commun"
+                    class="h-12 w-auto object-contain sm:h-14 md:h-16"
                     loading="lazy"
                     decoding="async"
                 />
-                <span class="font-display text-base font-bold tracking-tight text-slate-800 sm:text-lg md:text-xl">SANTÉ EN COMMUN</span>
             </div>
             <div class="flex items-center gap-3">
-                <a href="mailto:santeencommun@gmail.com" class="flex h-11 w-11 items-center justify-center rounded-full border border-brand-green/20 bg-white/70 text-slate-700 transition hover:bg-brand-rose hover:text-white" aria-label="Envoyer un email à Santé en Commun">
+                <a href="mailto:santeencommun@gmail.com" class="sticker r-2 flex h-11 w-11 items-center justify-center border-ink bg-brand-yellow text-brand-ink shadow-hard-sm transition hover:bg-brand-terracotta hover:text-white" aria-label="Envoyer un email à Santé en Commun">
                     <i class="fa-solid fa-envelope"></i>
                 </a>
-                <a href="https://www.linkedin.com/company/sante-en-commun-mulhouse" target="_blank" rel="noopener noreferrer" class="flex h-11 w-11 items-center justify-center rounded-full border border-brand-green/20 bg-white/70 text-slate-700 transition hover:bg-[#0A66C2] hover:text-white" aria-label="Page LinkedIn Santé en Commun">
+                <a href="https://www.linkedin.com/company/sante-en-commun-mulhouse" target="_blank" rel="noopener noreferrer" class="sticker r2 flex h-11 w-11 items-center justify-center border-ink bg-brand-yellow text-brand-ink shadow-hard-sm transition hover:bg-[#0A66C2] hover:text-white" aria-label="Page LinkedIn Santé en Commun">
                     <i class="fa-brands fa-linkedin-in"></i>
                 </a>
             </div>
@@ -358,8 +713,7 @@
 
         // --- 1. Données en mémoire (site public) ---
         let state = {
-            agenda: [],
-            actus: []
+            agenda: []
         };
 
         // --- 2. Fonctions d'Affichage du site public ---
@@ -369,75 +723,33 @@
 
             if (state.agenda.length === 0) {
                 container.innerHTML = `
-                <article class="md:col-span-3 bg-white/90 rounded-3xl p-10 border border-brand-green/20 text-center shadow-[0_24px_45px_-35px_rgba(146,180,167,0.9)]">
-                    <div class="w-16 h-16 mx-auto mb-5 rounded-full bg-brand-greenLight/80 flex items-center justify-center text-brand-green text-2xl">
+                <article class="md:col-span-3 tilt r-1 bg-brand-bg p-10 border-ink-3 text-center shadow-hard torn-soft">
+                    <div class="w-16 h-16 mx-auto mb-5 border-ink bg-brand-yellow flex items-center justify-center text-brand-ink text-2xl torn-2">
                         <i class="fa-regular fa-calendar"></i>
                     </div>
-                    <h3 class="font-display text-2xl font-bold text-slate-800 mb-3">Restez branchés</h3>
-                    <p class="text-slate-600 text-lg leading-relaxed max-w-2xl mx-auto">
+                    <h3 class="font-display text-3xl text-brand-ink mb-3">Restez branchés</h3>
+                    <p class="text-brand-ink/80 text-lg leading-relaxed max-w-2xl mx-auto">
                         Aucun événement programmé pour le moment. Un nouveau Café Santé arrive bientôt à Mulhouse.
                     </p>
                 </article>`;
                 return;
             }
 
-            state.agenda.forEach(item => {
-                const tagHtml = item.tag ? `<div class="absolute top-0 right-0 bg-brand-green text-white font-display font-bold px-4 py-1.5 rounded-bl-2xl rounded-tr-3xl text-xs uppercase tracking-wide z-10 shadow-[0_16px_30px_-24px_rgba(146,180,167,1)]">${item.tag}</div>` : '';
+            state.agenda.forEach((item, i) => {
+                const tilt = ['r-1','r1','r-2'][i % 3];
+                const tagHtml = item.tag ? `<div class="absolute -top-3 -right-2 tilt r2 bg-brand-terracotta text-white font-display px-4 py-1.5 text-sm uppercase tracking-wide z-20 border-ink shadow-hard-sm">${item.tag}</div>` : '';
 
                 const html = `
-                <div class="bg-white/95 rounded-3xl p-8 shadow-[0_28px_52px_-36px_rgba(146,180,167,1)] border border-brand-green/25 card-hover relative">
+                <div class="tilt ${tilt} bg-brand-bg p-8 shadow-hard border-ink-3 card-hover relative torn-soft">
                     ${tagHtml}
-                    <div class="text-brand-rose font-display font-bold text-xl mt-2 flex items-center gap-2"><i class="fa-regular fa-calendar-days text-base"></i>${item.date}</div>
-                    <div class="text-slate-500 font-medium mb-6 text-sm"><i class="fa-regular fa-clock mr-1"></i> ${item.time}</div>
-                    <h3 class="font-display text-2xl font-bold text-slate-800 mb-3">${item.title}</h3>
-                    <p class="text-slate-600 mb-8 leading-relaxed">${item.desc}</p>
-                    <div class="flex items-center text-sm font-medium text-slate-700 bg-brand-greenLight/65 p-4 rounded-3xl mt-auto border border-brand-green/15">
-                        <i class="fa-solid fa-location-dot text-brand-green mr-3 text-lg"></i> ${item.location}
+                    <div class="text-brand-terracotta font-display text-2xl mt-2 flex items-center gap-2"><i class="fa-regular fa-calendar-days text-lg"></i>${item.date}</div>
+                    <div class="text-brand-ink/70 font-medium mb-6 text-sm"><i class="fa-regular fa-clock mr-1"></i> ${item.time}</div>
+                    <h3 class="font-display text-2xl text-brand-ink mb-3 leading-tight">${item.title}</h3>
+                    <p class="text-brand-ink/80 mb-8 leading-relaxed">${item.desc}</p>
+                    <div class="flex items-center text-sm font-semibold text-brand-ink bg-brand-yellow/30 p-4 mt-auto border-ink">
+                        <i class="fa-solid fa-location-dot text-brand-terracotta mr-3 text-lg"></i> ${item.location}
                     </div>
                 </div>`;
-                container.innerHTML += html;
-            });
-        }
-
-        function renderActus() {
-            const container = document.getElementById('actus-container');
-            container.innerHTML = '';
-
-            if (state.actus.length === 0) {
-                container.innerHTML = `
-                <article class="md:col-span-2 bg-white/90 rounded-3xl p-10 border border-brand-rose/20 text-center shadow-[0_24px_45px_-35px_rgba(198,133,133,0.9)]">
-                    <div class="w-16 h-16 mx-auto mb-5 rounded-full bg-brand-roseLight/80 flex items-center justify-center text-brand-rose text-2xl">
-                        <i class="fa-regular fa-newspaper"></i>
-                    </div>
-                    <h3 class="font-display text-2xl font-bold text-slate-800 mb-3">Le blog arrive bientôt</h3>
-                    <p class="text-slate-600 text-lg leading-relaxed max-w-2xl mx-auto">
-                        Nous préparons nos premiers articles. Revenez bientôt pour découvrir nos actualités et conseils santé.
-                    </p>
-                </article>`;
-                return;
-            }
-
-            state.actus.forEach(item => {
-                let mediaHtml = '';
-                if(item.isIcon) {
-                    mediaHtml = `<div class="w-full sm:w-48 h-48 bg-brand-roseLight rounded-3xl flex-shrink-0 flex items-center justify-center border border-brand-rose/20 relative shadow-[0_22px_35px_-28px_rgba(198,133,133,1)]">
-                                    <i class="fa-solid ${item.icon || 'fa-comments'} text-5xl text-brand-rose"></i>
-                                 </div>`;
-                } else {
-                    const bgImage = item.image ? item.image : "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=400&q=80";
-                    mediaHtml = `<div class="w-full sm:w-48 h-48 bg-slate-100 rounded-3xl flex-shrink-0 bg-cover bg-center border border-brand-green/15 relative shadow-[0_24px_38px_-30px_rgba(146,180,167,1)]" style="background-image: url('${bgImage}');"></div>`;
-                }
-
-                const html = `
-                <article class="flex flex-col sm:flex-row gap-6 bg-white/95 p-5 rounded-3xl card-hover shadow-[0_26px_45px_-34px_rgba(146,180,167,1)] border border-brand-green/15">
-                    ${mediaHtml}
-                    <div class="flex flex-col justify-center py-2 flex-grow">
-                        <span class="text-brand-rose font-display font-bold text-xs mb-2 uppercase tracking-wider">${item.category}</span>
-                        <h3 class="font-display text-xl font-bold text-slate-800 mb-3 leading-tight">${item.title}</h3>
-                        <p class="text-slate-600 text-sm mb-4 line-clamp-3">${item.desc}</p>
-                        <a href="#" class="text-brand-green font-medium text-sm hover:underline mt-auto flex items-center gap-1">Lire la suite <i class="fa-solid fa-arrow-right text-xs"></i></a>
-                    </div>
-                </article>`;
                 container.innerHTML += html;
             });
         }
@@ -445,7 +757,6 @@
         // --- 3. Initialisation ---
         window.onload = () => {
             renderAgenda();
-            renderActus();
         };
     </script>
 </body>
