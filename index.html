@@ -12,45 +12,19 @@
     <meta property="og:url" content="https://santeencommun-mulhouse.fr/">
     <meta property="og:type" content="website">
     <meta property="og:locale" content="fr_FR">
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Préconnexions aux origines externes (accélère polices / CDN) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <!-- Préchargement de l'image LCP (photo d'accueil) -->
+    <link rel="preload" as="image" href="photodegroupe.jpg" fetchpriority="high">
+    <!-- Tailwind CSS (compilé, statique) -->
+    <link rel="stylesheet" href="tailwind.css">
     <!-- FontAwesome pour les icônes -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Fonts : Poppins (corps) · Bebas Neue (titres) · Permanent Marker + Caveat (annotations) -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Caveat:wght@500;600;700&family=Permanent+Marker&family=Poppins:wght@400;500;600;700;800&family=Rubik+Bubbles&display=swap" rel="stylesheet">
-    
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: { 
-                        sans: ['Poppins', 'sans-serif'],
-                        display: ['"Bebas Neue"', 'sans-serif'],
-                        marker: ['"Permanent Marker"', 'cursive'],
-                        hand: ['"Caveat"', 'cursive']
-                    },
-                    colors: { 
-                        brand: { 
-                            terracotta: '#C35A3B',
-                            sage: '#9BA58B',
-                            kraft: '#D2AD81',
-                            yellow: '#FBD85D',
-                            bg: '#F9F8F6',
-                            ink: '#1A1A1A',
-                            text: '#1A1A1A',
-                            /* alias rétro-compatibles avec l'ancien markup */
-                            rose: '#C35A3B',
-                            roseLight: '#F0D8CD',
-                            green: '#9BA58B',
-                            greenLight: '#E4E7DC'
-                        } 
-                    }
-                }
-            }
-        }
-    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Caveat:wght@500;600;700&family=Permanent+Marker&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
     <style>
         :root{
             --ink:#1A1A1A; --paper:#F9F8F6; --terracotta:#C35A3B;
@@ -197,6 +171,8 @@
                         <img
                             src="logoheader.png"
                             alt="Santé en Commun — la communauté du soin, Mulhouse"
+                            width="956"
+                            height="225"
                             class="h-12 w-auto object-contain sm:h-14 lg:h-16"
                             decoding="async"
                             fetchpriority="high"
@@ -281,10 +257,13 @@
                             <span class="font-hand text-xl">Photo Café Santé à venir</span>
                         </div>
                         <img
-                            src="photodegroupe.png"
+                            src="photodegroupe.jpg"
                             alt="L'équipe de Santé en Commun à Mulhouse réunie lors d'un Café Santé"
+                            width="873"
+                            height="896"
                             class="tilt r2 absolute inset-0 block h-full w-full border-ink-3 object-cover shadow-hard torn"
-                            loading="lazy"
+                            loading="eager"
+                            fetchpriority="high"
                             decoding="async"
                             onerror="this.style.display='none'"
                         />
@@ -318,6 +297,8 @@
                 <img
                     src="social.jpeg"
                     alt="Écoute et échange entre habitants — Santé en Commun"
+                    width="750"
+                    height="1000"
                     class="tilt r-1 relative z-10 block h-auto w-auto max-w-full border-ink-3 bg-white p-2 shadow-hard torn-soft sm:max-w-xl lg:h-full lg:max-w-none lg:w-full lg:object-cover"
                     loading="lazy"
                     decoding="async"
@@ -472,7 +453,7 @@
                     <div class="tilt r-1 bg-brand-yellow p-2.5 torn-2">
                         <div class="relative flex aspect-square w-full items-center justify-center overflow-hidden bg-brand-yellow torn-2">
                             <i class="fa-solid fa-user text-6xl text-brand-ink/30" aria-hidden="true"></i>
-                            <img src="membre/marion-rabier.png" alt="Portrait de Marion Rabier" class="absolute inset-0 h-full w-full object-cover" loading="lazy" decoding="async" onerror="this.style.display='none'">
+                            <img src="membre/marion-rabier.jpg" alt="Portrait de Marion Rabier" class="absolute inset-0 h-full w-full object-cover" loading="lazy" decoding="async" onerror="this.style.display='none'">
                         </div>
                     </div>
                 </div>
@@ -576,7 +557,7 @@
                         <span class="font-hand text-xl">Photo de groupe à venir</span>
                     </div>
                     <img
-                        src="photodegroupe.png"
+                        src="photodegroupe.jpg"
                         alt="Photo de groupe des bénévoles de Santé en Commun à Mulhouse"
                         class="tilt r2 absolute inset-0 block h-full w-full border-ink-3 object-cover shadow-hard torn"
                         loading="lazy"
@@ -673,6 +654,8 @@
                 <img
                     src="logoheader.png"
                     alt="Santé en Commun"
+                    width="956"
+                    height="225"
                     class="h-12 w-auto object-contain sm:h-14 md:h-16"
                     loading="lazy"
                     decoding="async"
