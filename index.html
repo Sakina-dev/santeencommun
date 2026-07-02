@@ -16,14 +16,16 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
-    <!-- Préchargement de l'image LCP (photo d'accueil) -->
-    <link rel="preload" as="image" href="photodegroupe.jpg" fetchpriority="high">
-    <!-- Tailwind CSS (compilé, statique) -->
+    <!-- Préchargement de l'image LCP (photo d'accueil), responsive -->
+    <link rel="preload" as="image" href="photodegroupe.jpg" imagesrcset="photodegroupe-sm.jpg 500w, photodegroupe.jpg 873w" imagesizes="(min-width:1024px) 512px, (min-width:768px) 448px, 90vw" fetchpriority="high">
+    <!-- Tailwind CSS (compilé, statique) : critique, bloquant volontairement -->
     <link rel="stylesheet" href="tailwind.css">
-    <!-- FontAwesome pour les icônes -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts : Poppins (corps) · Bebas Neue (titres) · Permanent Marker + Caveat (annotations) -->
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Caveat:wght@500;600;700&family=Permanent+Marker&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome (icônes) : chargé sans bloquer le rendu -->
+    <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
+    <!-- Google Fonts : Poppins · Bebas Neue · Permanent Marker · Caveat : chargées sans bloquer le rendu -->
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Caveat:wght@500;600;700&family=Permanent+Marker&family=Poppins:wght@400;500;600;700;800&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Caveat:wght@500;600;700&family=Permanent+Marker&family=Poppins:wght@400;500;600;700;800&display=swap"></noscript>
 
     <style>
         :root{
@@ -258,6 +260,8 @@
                         </div>
                         <img
                             src="photodegroupe.jpg"
+                            srcset="photodegroupe-sm.jpg 500w, photodegroupe.jpg 873w"
+                            sizes="(min-width:1024px) 512px, (min-width:768px) 448px, 90vw"
                             alt="L'équipe de Santé en Commun à Mulhouse réunie lors d'un Café Santé"
                             width="873"
                             height="896"
@@ -296,6 +300,8 @@
                 <span class="tape-piece tilt r2 right-6 -bottom-4 z-20" aria-hidden="true"></span>
                 <img
                     src="social.jpeg"
+                    srcset="social-sm.jpg 560w, social.jpeg 750w"
+                    sizes="(min-width:1024px) 500px, (min-width:640px) 576px, 90vw"
                     alt="Écoute et échange entre habitants — Santé en Commun"
                     width="750"
                     height="1000"
@@ -368,7 +374,7 @@
                     <div class="tilt r1 bg-brand-sage p-2.5 torn">
                         <div class="relative flex aspect-square w-full items-center justify-center overflow-hidden bg-brand-sage torn">
                             <i class="fa-solid fa-comment-dots text-6xl text-brand-ink/30" aria-hidden="true"></i>
-                            <img src="membre/camille-pousse.jpeg" alt="Portrait de Camille Pousse, psychologue" class="absolute inset-0 h-full w-full object-cover" loading="lazy" decoding="async" onerror="this.style.display='none'">
+                            <img src="membre/camille-pousse.jpeg" srcset="membre/camille-pousse-sm.jpg 400w, membre/camille-pousse.jpeg 700w" sizes="(min-width:640px) 288px, 80vw" alt="Portrait de Camille Pousse, psychologue" class="absolute inset-0 h-full w-full object-cover" loading="lazy" decoding="async" onerror="this.style.display='none'">
                         </div>
                     </div>
                 </div>
@@ -385,7 +391,7 @@
                     <div class="tilt r-1 bg-brand-yellow p-2.5 torn-2">
                         <div class="relative flex aspect-square w-full items-center justify-center overflow-hidden bg-brand-yellow torn-2">
                             <i class="fa-solid fa-user text-6xl text-brand-ink/30" aria-hidden="true"></i>
-                            <img src="membre/sarra-el-idrissi.jpeg" alt="Portrait de Sarra El Idrissi" class="absolute inset-0 h-full w-full object-cover" loading="lazy" decoding="async" onerror="this.style.display='none'">
+                            <img src="membre/sarra-el-idrissi.jpeg" srcset="membre/sarra-el-idrissi-sm.jpg 400w, membre/sarra-el-idrissi.jpeg 508w" sizes="(min-width:640px) 288px, 80vw" alt="Portrait de Sarra El Idrissi" class="absolute inset-0 h-full w-full object-cover" loading="lazy" decoding="async" onerror="this.style.display='none'">
                         </div>
                     </div>
                 </div>
@@ -402,7 +408,7 @@
                     <div class="tilt r1 bg-brand-terracotta p-2.5 torn">
                         <div class="relative flex aspect-square w-full items-center justify-center overflow-hidden bg-brand-terracotta torn">
                             <i class="fa-solid fa-user text-6xl text-white/40" aria-hidden="true"></i>
-                            <img src="membre/julie-lambrech.jpeg" alt="Portrait de Julie Lambrech" class="absolute inset-0 h-full w-full object-cover" loading="lazy" decoding="async" onerror="this.style.display='none'">
+                            <img src="membre/julie-lambrech.jpeg" srcset="membre/julie-lambrech-sm.jpg 400w, membre/julie-lambrech.jpeg 525w" sizes="(min-width:640px) 288px, 80vw" alt="Portrait de Julie Lambrech" class="absolute inset-0 h-full w-full object-cover" loading="lazy" decoding="async" onerror="this.style.display='none'">
                         </div>
                     </div>
                 </div>
@@ -436,7 +442,7 @@
                     <div class="tilt r1 bg-brand-sage p-2.5 torn">
                         <div class="relative flex aspect-square w-full items-center justify-center overflow-hidden bg-brand-sage torn">
                             <i class="fa-solid fa-baby text-6xl text-brand-ink/30" aria-hidden="true"></i>
-                            <img src="membre/farah-bessier.jpeg" alt="Portrait de Farah Bessier, sage-femme" class="absolute inset-0 h-full w-full object-cover" loading="lazy" decoding="async" onerror="this.style.display='none'">
+                            <img src="membre/farah-bessier.jpeg" srcset="membre/farah-bessier-sm.jpg 400w, membre/farah-bessier.jpeg 526w" sizes="(min-width:640px) 288px, 80vw" alt="Portrait de Farah Bessier, sage-femme" class="absolute inset-0 h-full w-full object-cover" loading="lazy" decoding="async" onerror="this.style.display='none'">
                         </div>
                     </div>
                 </div>
@@ -453,7 +459,7 @@
                     <div class="tilt r-1 bg-brand-yellow p-2.5 torn-2">
                         <div class="relative flex aspect-square w-full items-center justify-center overflow-hidden bg-brand-yellow torn-2">
                             <i class="fa-solid fa-user text-6xl text-brand-ink/30" aria-hidden="true"></i>
-                            <img src="membre/marion-rabier.jpg" alt="Portrait de Marion Rabier" class="absolute inset-0 h-full w-full object-cover" loading="lazy" decoding="async" onerror="this.style.display='none'">
+                            <img src="membre/marion-rabier.jpg" srcset="membre/marion-rabier-sm.jpg 400w, membre/marion-rabier.jpg 683w" sizes="(min-width:640px) 288px, 80vw" alt="Portrait de Marion Rabier" class="absolute inset-0 h-full w-full object-cover" loading="lazy" decoding="async" onerror="this.style.display='none'">
                         </div>
                     </div>
                 </div>
@@ -470,7 +476,7 @@
                     <div class="tilt r1 bg-brand-terracotta p-2.5 torn">
                         <div class="relative flex aspect-square w-full items-center justify-center overflow-hidden bg-brand-terracotta torn">
                             <i class="fa-solid fa-user text-6xl text-white/40" aria-hidden="true"></i>
-                            <img src="membre/garance-clement.jpeg" alt="Portrait de Garance Clément" class="absolute inset-0 h-full w-full object-cover" loading="lazy" decoding="async" onerror="this.style.display='none'">
+                            <img src="membre/garance-clement.jpeg" srcset="membre/garance-clement-sm.jpg 400w, membre/garance-clement.jpeg 700w" sizes="(min-width:640px) 288px, 80vw" alt="Portrait de Garance Clément" class="absolute inset-0 h-full w-full object-cover" loading="lazy" decoding="async" onerror="this.style.display='none'">
                         </div>
                     </div>
                 </div>
@@ -558,6 +564,8 @@
                     </div>
                     <img
                         src="photodegroupe.jpg"
+                        srcset="photodegroupe-sm.jpg 500w, photodegroupe.jpg 873w"
+                        sizes="(min-width:768px) 448px, 90vw"
                         alt="Photo de groupe des bénévoles de Santé en Commun à Mulhouse"
                         class="tilt r2 absolute inset-0 block h-full w-full border-ink-3 object-cover shadow-hard torn"
                         loading="lazy"
@@ -606,7 +614,7 @@
                     <span class="tape-piece tilt r2 left-1/2 -top-4 z-30 -translate-x-1/2" aria-hidden="true"></span>
                     <div class="relative h-56 w-full overflow-hidden border-b-2 border-ink bg-brand-kraft/40 torn">
                         <div class="absolute inset-0 flex items-center justify-center text-brand-ink/45"><i class="fa-solid fa-camera-retro text-5xl" aria-hidden="true"></i></div>
-                        <img src="permanace/fonderielocalcitoyen.jpeg" alt="Permanence santé au Local Citoyen Fonderie, Mulhouse" class="absolute inset-0 h-full w-full object-cover" loading="lazy" decoding="async" onerror="this.style.display='none'">
+                        <img src="permanace/fonderielocalcitoyen.jpeg" srcset="permanace/fonderielocalcitoyen-sm.jpg 500w, permanace/fonderielocalcitoyen.jpeg 675w" sizes="(min-width:768px) 360px, 90vw" alt="Permanence santé au Local Citoyen Fonderie, Mulhouse" class="absolute inset-0 h-full w-full object-cover" loading="lazy" decoding="async" onerror="this.style.display='none'">
                     </div>
                     <div class="flex flex-col px-3 pb-2 pt-5">
                         <span class="font-marker text-sm text-brand-terracotta mb-2">12 juin. 2026</span>
@@ -634,7 +642,7 @@
                     <span class="tape-piece tilt r3 left-1/2 -top-4 z-30 -translate-x-1/2" aria-hidden="true"></span>
                     <div class="relative h-56 w-full overflow-hidden border-b-2 border-ink bg-brand-yellow/40 torn">
                         <div class="absolute inset-0 flex items-center justify-center text-brand-ink/45"><i class="fa-solid fa-camera-retro text-5xl" aria-hidden="true"></i></div>
-                        <img src="permanace/centrepapin.jpeg" alt="Permanence santé au Centre Socioculturel Papin, Mulhouse" class="absolute inset-0 h-full w-full object-cover" loading="lazy" decoding="async" onerror="this.style.display='none'">
+                        <img src="permanace/centrepapin.jpeg" srcset="permanace/centrepapin-sm.jpg 500w, permanace/centrepapin.jpeg 900w" sizes="(min-width:768px) 360px, 90vw" alt="Permanence santé au Centre Socioculturel Papin, Mulhouse" class="absolute inset-0 h-full w-full object-cover" loading="lazy" decoding="async" onerror="this.style.display='none'">
                     </div>
                     <div class="flex flex-col px-3 pb-2 pt-5">
                         <span class="font-marker text-sm text-brand-terracotta mb-2">19 juin. 2026</span>
